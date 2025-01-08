@@ -1,0 +1,27 @@
+
+#introduction {
+	display: flex;
+	align-items: center;
+
+    & figure {
+	    flex: 1;
+    }
+
+    & img {
+	    display: block;
+	    margin: auto;
+	    width: 80%;
+    }
+
+    & article {
+	    flex: 1;
+    }
+
+    & h2 {
+	margin-bottom: 1em;
+    }
+
+    & p {
+	    margin-bottom: 0.5em;
+    }
+}
