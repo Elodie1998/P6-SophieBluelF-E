@@ -273,6 +273,43 @@ section {
   text-decoration: none;
 }
 
+.modifier {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modifier h2 {
+  text-align: center;
+}
+.modifier p {
+  padding-bottom: 25px;
+  padding-left: 20px;
+}
+
+#connecter {
+  width: 50%;
+  margin: 150px auto;
+}
+#connecter h2 {
+  display: flex;
+  justify-content: center;
+}
+#connecter form {
+  text-align: left;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+#connecter input {
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#connecter label {
+  margin: 2em 0 1em 0;
+}
+
 .modale {
   position: fixed;
   top: 0;
@@ -283,16 +320,41 @@ section {
   display: flex;
   justify-content: center;
 }
+.modale-gallery {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+  grid-column-gap: 20px;
+  grid-row-gap: 15px;
+}
+.modale-gallery img {
+  width: 100%;
+}
+
+.fermer-modale {
+  width: 24px;
+  height: 24px;
+  top: 26px;
+  right: 30px;
+  padding: 6px;
+  position: absolute;
+  border: none;
+  background-color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: end;
+}
 
 .contenu-modale {
+  overflow: auto;
   position: fixed;
   text-align: center;
-  width: 630px;
+  width: 500px;
   height: 688px;
   border-radius: 10px 0px 0px 0px;
   background-color: white;
-  margin-top: 25px;
-  padding-top: 60px;
+  margin-top: 30px;
+  padding: 20px;
 }
 .contenu-modale__h1 {
   font-family: "Work Sans";
@@ -301,6 +363,20 @@ section {
   text-align: center;
   font-size: 26px;
   line-height: 30px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+hr {
+  border: 1px solid #B3B3B3;
+}
+
+#modale input {
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  width: 240px;
 }
 
 body {

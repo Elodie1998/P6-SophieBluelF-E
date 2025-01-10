@@ -1,4 +1,6 @@
 
+@import "../page-connexion/connecter";
+
 .modale {
     position: fixed;
     top: 0;
@@ -7,19 +9,45 @@
     height: 100%;
     background-color: #0000004D;
     display: flex;
-    justify-content: center;
-    
+    justify-content: center;    
+
+    &-gallery {
+        width: 100%;
+        display: grid;
+        grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);
+        grid-column-gap: 20px;
+        grid-row-gap: 15px;
+
+        & img {
+            width: 100%;
+        }
+    }
+}
+
+.fermer-modale {
+    width: 24px;
+    height: 24px;
+    top: 26px;
+    right: 30px;
+    padding: 6px;
+    position: absolute;
+    border: none;
+    background-color: white;
+    font-weight: bold;
+    display: flex;
+    justify-content: end;
 }
 
 .contenu-modale {
+    overflow: auto;
     position: fixed;
     text-align: center;
-    width: 630px;
+    width: 500px;
     height: 688px;
     border-radius: 10px 0px 0px 0px;
     background-color: white;
-    margin-top: 25px;
-    padding-top: 60px;
+    margin-top: 30px;
+    padding: 20px;
 
     &__h1 {
         font-family: 'Work Sans';
@@ -28,5 +56,16 @@
         text-align: center;
         font-size: 26px;
         line-height: 30px;
+        padding-bottom: 20px;
+        padding-top: 20px;
     }
+}
+
+hr {
+    border: 1px solid #B3B3B3;
+}
+
+#modale input {
+    @include section-input;
+    width: 240px;
 }

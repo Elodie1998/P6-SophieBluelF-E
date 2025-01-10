@@ -28,6 +28,9 @@ function obtenirProjet(info) {//info : paramètre qui contient infos sur projets
 				<figcaption>${info.title}</figcaption>`;//img & alt + titre
 
     document.querySelector(".gallery").appendChild(projet); //ajout figure à la fin de l'element gallery
+    
+    const projetModale = projet.cloneNode(true); //true pr cloner ts les noeuds enfants = travaux
+    document.querySelector(".modale-gallery").appendChild(projetModale); //ajout figure à la fin de la modale
 }
 
 async function obtenirCategories() {

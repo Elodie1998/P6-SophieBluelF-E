@@ -16,3 +16,18 @@
         text-decoration: none;
     }
 }
+
+.modifier {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & h2 {
+        text-align: center;
+    }
+
+    & p {
+        padding-bottom: 25px;
+        padding-left: 20px;
+    }
+}
