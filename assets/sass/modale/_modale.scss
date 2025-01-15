@@ -9,19 +9,45 @@
     height: 100%;
     background-color: #0000004D;
     display: flex;
-    justify-content: center;    
+    justify-content: center;   
 
     &-gallery {
         width: 100%;
         display: grid;
-        grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);
-        grid-column-gap: 20px;
-        grid-row-gap: 15px;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-column-gap: 10px;
+        grid-row-gap: 10px;
+        padding-bottom: 0;
+    }
 
         & img {
             width: 100%;
         }
+
+    &-projet-conteneur {
+        position: relative;
+        display: inline-block;
+
+        & img {
+            display: block;
+        }
     }
+}
+
+.affiche-poubelle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+}
+
+.fa-trash-can {
+    font-size: 10px;
+    color: white;
+    background-color: black;
+    padding: 4px;
 }
 
 .fermer-modale {
@@ -39,25 +65,26 @@
 }
 
 .contenu-modale {
-    overflow: auto;
+    overflow: clip;
     position: fixed;
     text-align: center;
-    width: 500px;
-    height: 688px;
+    width: 620px;
+    height: 720px;
     border-radius: 10px 0px 0px 0px;
     background-color: white;
-    margin-top: 30px;
-    padding: 20px;
+    margin-top: 6px;
+    padding: 10px 40px;
 
     &__h1 {
         font-family: 'Work Sans';
         color: black;
         font-weight: 400;
         text-align: center;
-        font-size: 26px;
+        font-size: 24px;
         line-height: 30px;
-        padding-bottom: 20px;
-        padding-top: 20px;
+        padding-top: 28px;
+        height: 30px;
+        padding-bottom: 50px;
     }
 }
 
@@ -68,4 +95,5 @@ hr {
 #modale input {
     @include section-input;
     width: 240px;
+    margin: 0.6em auto;
 }

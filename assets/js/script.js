@@ -10,10 +10,12 @@ async function recuperationTravaux(filtre) { //opé asynchrones (tps), await gè
             const estFiltre = travaux.filter((info) => info.categoryId === filtre); //travaux filtrés par catégorie via filter() 
             for (let i = 0; i < estFiltre.length; i++) {//pr chaque travail (filtré)
                 obtenirProjet(estFiltre[i]);//appel fonction pr ajouter ce projet ds gallery
+                obtenirProjetModale(estFiltre[i]);
             }
         } else {//si filtre n'a pas de valeur = tous les projets
             for (let i = 0; i < travaux.length; i++) {//pr chaque travail (non filtré)
                 obtenirProjet(travaux[i]);//tous les projets ajoutés ds gallery sans filtre
+                obtenirProjetModale(travaux[i]);
             }   
         }
     } catch (erreur) { //si erreur
@@ -28,8 +30,15 @@ function obtenirProjet(info) {//info : paramètre qui contient infos sur projets
 				<figcaption>${info.title}</figcaption>`;//img & alt + titre
 
     document.querySelector(".gallery").appendChild(projet); //ajout figure à la fin de l'element gallery
-    
-    const projetModale = projet.cloneNode(true); //true pr cloner ts les noeuds enfants = travaux
+}
+
+function obtenirProjetModale(info) {
+    const projetModale = document.createElement("figure");
+    projetModale.innerHTML = `<div class="modale-projet-conteneur">
+                                <img src="${info.imageUrl}" alt="${info.title}">
+                                <i class="fa-solid fa-trash-can affiche-poubelle"></i>
+                                <figcaption>${info.title}</figcaption>
+                                </div>`;
     document.querySelector(".modale-gallery").appendChild(projetModale); //ajout figure à la fin de la modale
 }
 
