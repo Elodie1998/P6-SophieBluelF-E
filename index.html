@@ -19,14 +19,18 @@
 
 	<aside id="modale" class="modale" aria-hidden="true" style="display: none" role="dialog" aria-modal="false" aria-labelledby="modale-titre">
         <div class="contenu-modale modale-js-arreter">
-			<button class="modale-js-fermer fermer-modale" aria-label = "Fermer la boîte">
-				<i class="fa-solid fa-xmark"></i>
-			</button>
-            <h1 class="contenu-modale__h1">Galerie photo</h1>
+			<div class="fermer-modale-conteneur">
+				<button class="modale-js-fermer fermer-modale" aria-label = "Fermer la boîte">
+					<i class="fa-solid fa-xmark"></i>
+				</button>
+			</div>
+        	<h1 class="contenu-modale__h1">Galerie photo</h1>
 			<div class="modale-gallery"></div>
 			<hr/>
-			<input type="submit" value="Ajouter une photo">
-        </div>
+			<div class="modale-button-js">
+				<input type="submit" value="Ajouter une photo">
+        	</div>
+		</div>
     </aside>
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>

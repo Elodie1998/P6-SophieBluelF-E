@@ -18,6 +18,14 @@ async function recuperationTravaux(filtre) { //opé asynchrones (tps), await gè
                 obtenirProjetModale(travaux[i]);
             }   
         }
+
+        //Suppression
+        const iconePoubelle = document.querySelectorAll(".fa-trash-can");
+        console.log(iconePoubelle);
+        iconePoubelle.forEach((e) => 
+            e.addEventListener("click", (event) => supprTravaux(event))
+        );
+
     } catch (erreur) { //si erreur
         console.log("Il y a eu un problème :", erreur); // affiche erreur ds console
     }
@@ -33,14 +41,21 @@ function obtenirProjet(info) {//info : paramètre qui contient infos sur projets
 }
 
 function obtenirProjetModale(info) {
+    // console.log(info);
     const projetModale = document.createElement("figure");
     projetModale.innerHTML = `<div class="modale-projet-conteneur">
                                 <img src="${info.imageUrl}" alt="${info.title}">
-                                <i class="fa-solid fa-trash-can affiche-poubelle"></i>
                                 <figcaption>${info.title}</figcaption>
-                                </div>`;
+                                <i id="${info.id}" class="fa-solid fa-trash-can affiche-poubelle"></i>
+                              </div>`;
     document.querySelector(".modale-gallery").appendChild(projetModale); //ajout figure à la fin de la modale
 }
+
+document.addEventListener("click", function(event) {
+    if (event.target.classList.contains("fa-trash-can")) {
+        console.log("hello");
+    }
+});
 
 async function obtenirCategories() {
     try {
@@ -61,7 +76,7 @@ async function obtenirCategories() {
 obtenirCategories();//appel pr recup catégories dispo via API
 
 function afficherFiltres(info) {
-    console.log(info);//afficher ttes les catégories ss forme d'objets
+    // console.log(info);//afficher ttes les catégories ss forme d'objets
     const divConteneur = document.createElement("div");//creation elements div pr chaque catégorie
     divConteneur.className = info.name;//attribution nom de classe aux div créés
     divConteneur.addEventListener("click", () => recuperationTravaux(info.id));//gestion d'événement qui appelle recuperationTravaux ac pr paramètre  celui qui contient les infos sur projets 
@@ -69,3 +84,47 @@ function afficherFiltres(info) {
     document.querySelector(".div-conteneur").appendChild(divConteneur);//lie le parent dt classe est div-conteneur aux div créés
 }
 document.querySelector(".tous").addEventListener("click", () => recuperationTravaux());//ajout événement aux btns ac classe "tous" pr appeler fction recuperationTravaux() sans filtrer, afficher ts les projets
+
+//fonction suppression
+async function supprTravaux(event) {
+    // console.log(event);
+    const id = event.target.id;
+    const supprApi = "http://localhost:5678/api/works/";
+    const token = sessionStorage.connexToken;
+    // console.log("Token : ", token);
+    // console.log("ID à suppr : ", id);
+
+        let reponseRecu = await fetch (supprApi + id, {
+            method: "DELETE",
+            headers: { Authorization:"Bearer " + token}
+        });
+
+    console.log("Réponse du serveur : ", reponseRecu);
+
+    try {
+        if (reponseRecu.status == 401 || reponseRecu.status == 500) {
+            const texteErreur = document.createElement("div");
+            texteErreur.innerHTML = "Vous n'êtes pas autorisé à effectuer cette action. Veuillez vous reconnecter.";
+            texteErreur.classList.add("erreur");
+
+            if(texteErreur) {//si existe déjà, MAJ (message non répété)
+                texteErreur.innerHTML = "La connexion n'a pas pu être établie.";
+            }
+            if (reponseRecu.status === 401 || reponseRecu.status === 500) {
+                texteErreur.innerHTML = "Connexion impossible.";
+            } else {
+                texteErreur.innerHTML = "1 erreur s'est produite lors de la suppr.";
+            }
+
+            document.querySelector(".modale-projet-conteneur").prepend(texteErreur);//ajout message erreur au début modale 
+        } else {
+                //ajout traitement après connexion réussie
+            let resultat = await reponseRecu.json();
+            console.log("Résultat de la suppr", resultat);
+            // const resultatJson = JSON.stringify(resultat);
+            // window.sessionStorage.setItem("resultat", resultatJson);
+            }
+    } catch (error) {
+         console.error("Erreur lors de la suppression:", error);
+    }
+}

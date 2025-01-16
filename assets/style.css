@@ -383,7 +383,7 @@ section {
 }
 
 .contenu-modale {
-  overflow: clip;
+  overflow: auto;
   position: fixed;
   text-align: center;
   width: 620px;
