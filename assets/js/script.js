@@ -34,6 +34,7 @@ recuperationTravaux();// appel pr récup & afficher tous les projets au chargeme
 
 function obtenirProjet(info) {//info : paramètre qui contient infos sur projets
     const projet = document.createElement("figure");//creation element figure  & titre
+    projet.id = `gallery-${info.id}`;
     projet.innerHTML = `<img src=${info.imageUrl} alt=${info.title}>
 				<figcaption>${info.title}</figcaption>`;//img & alt + titre
 
@@ -43,19 +44,20 @@ function obtenirProjet(info) {//info : paramètre qui contient infos sur projets
 function obtenirProjetModale(info) {
     // console.log(info);
     const projetModale = document.createElement("figure");
+    projetModale.id = `projet-${info.id}`;
     projetModale.innerHTML = `<div class="modale-projet-conteneur">
                                 <img src="${info.imageUrl}" alt="${info.title}">
                                 <figcaption>${info.title}</figcaption>
-                                <i id="${info.id}" class="fa-solid fa-trash-can affiche-poubelle"></i>
+                                <i data-projet="${info.id}" class="fa-solid fa-trash-can affiche-poubelle"></i>
                               </div>`;
     document.querySelector(".modale-gallery").appendChild(projetModale); //ajout figure à la fin de la modale
 }
 
-document.addEventListener("click", function(event) {
-    if (event.target.classList.contains("fa-trash-can")) {
-        console.log("hello");
-    }
-});
+// document.addEventListener("click", function(event) {
+//     if (event.target.classList.contains("fa-trash-can")) {
+//         console.log("hello");
+//     }
+// });
 
 async function obtenirCategories() {
     try {
@@ -87,44 +89,73 @@ document.querySelector(".tous").addEventListener("click", () => recuperationTrav
 
 //fonction suppression
 async function supprTravaux(event) {
-    // console.log(event);
-    const id = event.target.id;
+    console.log(event);
+    const id = event.target.dataset.projet; //ID du projet à suppr
     const supprApi = "http://localhost:5678/api/works/";
     const token = sessionStorage.connexToken;
     // console.log("Token : ", token);
     // console.log("ID à suppr : ", id);
 
-        let reponseRecu = await fetch (supprApi + id, {
-            method: "DELETE",
-            headers: { Authorization:"Bearer " + token}
-        });
+    let reponseRecu = await fetch (supprApi + id, {
+        method: "DELETE",
+        headers: { Authorization:"Bearer " + token}
+});
 
-    console.log("Réponse du serveur : ", reponseRecu);
+console.log("Réponse du serveur : ", reponseRecu);
 
-    try {
-        if (reponseRecu.status == 401 || reponseRecu.status == 500) {
-            const texteErreur = document.createElement("div");
-            texteErreur.innerHTML = "Vous n'êtes pas autorisé à effectuer cette action. Veuillez vous reconnecter.";
-            texteErreur.classList.add("erreur");
+if (!reponseRecu.ok) {
+    const texteErreur = document.createElement("div");
+    texteErreur.innerHTML = "Vous n'êtes pas autorisé à effectuer cette action. Veuillez vous reconnecter.";
+    texteErreur.classList.add("erreur");
 
-            if(texteErreur) {//si existe déjà, MAJ (message non répété)
-                texteErreur.innerHTML = "La connexion n'a pas pu être établie.";
-            }
-            if (reponseRecu.status === 401 || reponseRecu.status === 500) {
-                texteErreur.innerHTML = "Connexion impossible.";
-            } else {
-                texteErreur.innerHTML = "1 erreur s'est produite lors de la suppr.";
-            }
+    document.querySelector(".modale-projet-conteneur").prepend(texteErreur);//ajout message erreur au début modale 
+} else {
+    //Suppr fait  - MAJ interface utilisateur
+    //Récup et suppr du DOM l'élément projet correspondant
+    console.log("ID du projet à suppr : ", id);
+    console.log("Essaye de trouver l'élément ac l'ID :", "projet-" + id);
+    const projetElement = document.getElementById("projet-" + id);// Vérifie ID corr à celui du projet
+    const galleryElement = document.getElementById("gallery-" + id);
 
-            document.querySelector(".modale-projet-conteneur").prepend(texteErreur);//ajout message erreur au début modale 
-        } else {
-                //ajout traitement après connexion réussie
-            let resultat = await reponseRecu.json();
-            console.log("Résultat de la suppr", resultat);
-            // const resultatJson = JSON.stringify(resultat);
-            // window.sessionStorage.setItem("resultat", resultatJson);
-            }
-    } catch (error) {
-         console.error("Erreur lors de la suppression:", error);
+    console.log("Element trouvé :", projetElement);
+    if (projetElement) {
+        projetElement.remove(); //suppr l'element du DOM
+        console.log("Projet supprimé avec succès.");
+    } else {
+        console.log("Element non trouvé pr l'ID : projet-" + id); //Averti si élément n'st pas trouvé
+    }
+    if (galleryElement) {
+        galleryElement.remove(); //suppr l'element du DOM
+        console.log("Projet supprimé avec succès.");
+    } else {
+        console.log("Element non trouvé pr l'ID : gallery-" + id); //Averti si élément n'st pas trouvé
     }
 }
+}
+
+// Fonction ajout photo
+function modaleAjoutPhoto () {
+    document.querySelector(".contenu-modale").innerHTML = 
+            `<div class="fermer-modale-conteneur">
+				<button class="modale-js-fermer fermer-modale" aria-label = "Fermer la boîte">
+					<i class="fa-solid fa-xmark"></i>
+				</button>
+			</div>
+        	<h1 class="contenu-modale__h1">Ajout photo</h1>
+			<div class="ajout-photo-form">
+                <form action="#" method="post">
+			        <label for="title">Titre</label>
+			        <input type="text" name="name" id="name">
+			        <label for="category">catégorie</label>
+			        <input type="category" name="category" id="category">
+			        <input type="submit" value="Valider">
+		        </form>
+            </div>
+			<hr/>
+			<div class="modale-button-js">
+				<input class="ajout-photo" type="submit" value="Valider">
+        	</div>`;
+};
+
+const ajouterPhotoInput = document.querySelector(".ajout-photo");
+ajouterPhotoInput.addEventListener("click", modaleAjoutPhoto);
