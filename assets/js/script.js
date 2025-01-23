@@ -134,28 +134,58 @@ if (!reponseRecu.ok) {
 }
 
 // Fonction ajout photo
-function modaleAjoutPhoto () {
-    document.querySelector(".contenu-modale").innerHTML = 
-            `<div class="fermer-modale-conteneur">
-				<button class="modale-js-fermer fermer-modale" aria-label = "Fermer la boîte">
-					<i class="fa-solid fa-xmark"></i>
-				</button>
-			</div>
-        	<h1 class="contenu-modale__h1">Ajout photo</h1>
-			<div class="ajout-photo-form">
-                <form action="#" method="post">
-			        <label for="title">Titre</label>
-			        <input type="text" name="name" id="name">
-			        <label for="category">catégorie</label>
-			        <input type="category" name="category" id="category">
-			        <input type="submit" value="Valider">
-		        </form>
-            </div>
-			<hr/>
-			<div class="modale-button-js">
-				<input class="ajout-photo" type="submit" value="Valider">
-        	</div>`;
-};
+// function modaleAjoutPhoto () {
+//    modale.querySelector(".modale-js-fermer").addEventListener("click", fermerModale);
+//    modale.querySelector(".fa-arrow-left").addEventListener("click", ouvrirModale );
+// };
 
-const ajouterPhotoInput = document.querySelector(".ajout-photo");
-ajouterPhotoInput.addEventListener("click", modaleAjoutPhoto);
+// function modaleAjoutPhoto () {
+//     document.querySelector(".contenu-modale").innerHTML = 
+//             `<div class="fermer-modale-conteneur">
+//             		<button class="fleche-gauche-modale" aria-label = "Revenir en arrière">
+// 						<i id="iconeFlecheGauche" class="fa-solid fa-arrow-left"></i>
+// 					</button>
+// 					<button class="modale-js-fermer fermer-modale" aria-label = "Fermer la boîte">
+// 						<i class="fa-solid fa-xmark"></i>
+// 					</button>
+// 				</div>
+//         		<h1 class="contenu-modale__h1">Ajout photo</h1>
+//             	<div class="ajouter-photo-rectangle">
+//                 	<i class="fa-regular fa-image"></i>
+//                 	<p>jpg, png : 4mo max</p>
+//             	</div>
+// 				<div class="ajout-photo-form">
+//             	    <div id="ajout">
+//                 	    <form class="modale-ajout-form" action="#" method="post">
+// 			        	    <label for="title">Titre</label>
+// 			            	<input class="modale-ajout-form input" type="text" name="name" id="name">
+// 			            	<label class="ajout-photo-categorie" for="category">Catégorie</label>
+// 			            	<input type="category" name="category" id="category">
+// 		            	</form>
+//                 	</div>
+//             	</div>
+// 				<hr/>
+// 				<div class="modale-button-js">
+// 					<input class="ajout-photo" id="button-grey" type="submit" value="Valider">
+//         		</div>`;
+// };
+
+const ajouterPhotoInput = document.getElementById("modaleButtonJs");
+ajouterPhotoInput.addEventListener("click", revenirModaleSuppr);
+const flecheGaucheModale = document.querySelector(".fleche-gauche-modale");
+flecheGaucheModale.addEventListener("click", revenirModaleSuppr);
+
+function revenirModaleSuppr() {
+    const modaleAffichee = document.getElementById("modaleSuppr");
+    const modaleAjout = document.getElementById("modaleAjout");
+
+    if (modaleAffichee.style.display === "block" || modaleAffichee.style.display === "") {
+        modaleAffichee.style.display = "none";
+        modaleAjout.style.display = "block";
+        console.log("fait");
+    } else {
+        modaleAffichee.style.display = "block";
+        modaleAjout.style.display = "none";
+        console.log("toggle");
+    }
+}

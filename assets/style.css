@@ -323,6 +323,36 @@ section {
   margin: 2em 0 1em 0;
 }
 
+#contact {
+  width: 50%;
+  margin: auto;
+}
+#contact > * {
+  text-align: center;
+}
+#contact h2 {
+  margin-bottom: 20px;
+}
+#contact form {
+  text-align: left;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+#contact input {
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#contact label {
+  margin: 2em 0 1em 0;
+}
+#contact textarea {
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
 .modale {
   position: fixed;
   top: 0;
@@ -337,8 +367,8 @@ section {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  grid-column-gap: 10px;
-  grid-row-gap: 10px;
+  grid-column-gap: 20px;
+  grid-row-gap: 15px;
   padding-bottom: 0;
 }
 .modale img {
@@ -350,6 +380,35 @@ section {
 }
 .modale-projet-conteneur img {
   display: block;
+}
+.modale-ajout-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.ajout-photo-categorie {
+  padding: 20px 0;
+}
+
+#ajout form {
+  text-align: left;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px;
+}
+
+.ajouter-photo-rectangle {
+  margin: auto;
+  width: 420px;
+  height: 169px;
+  border-radius: 3px 0px 0px 0px;
+  background-color: #E8F1F6;
+}
+
+#modale #ajout input {
+  width: 420px;
+  margin: auto;
 }
 
 .affiche-poubelle {
@@ -366,6 +425,23 @@ section {
   color: white;
   background-color: black;
   padding: 4px;
+}
+
+.fleche-gauche-modale {
+  display: block;
+  border: none;
+  background-color: white;
+  padding-top: 30px;
+}
+
+.fa-arrow-left {
+  display: flex;
+  justify-content: left;
+}
+
+.fa-image {
+  color: #B9C5CC;
+  font-size: 75px;
 }
 
 .fermer-modale {
@@ -391,7 +467,7 @@ section {
   border-radius: 10px 0px 0px 0px;
   background-color: white;
   margin-top: 6px;
-  padding: 10px 40px;
+  padding: 0 40px;
 }
 .contenu-modale__h1 {
   font-family: "Work Sans";
@@ -401,7 +477,6 @@ section {
   font-size: 24px;
   line-height: 30px;
   padding-top: 28px;
-  height: 30px;
   padding-bottom: 50px;
 }
 
@@ -416,6 +491,15 @@ hr {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
   width: 240px;
   margin: 0.6em auto;
+}
+
+#button-grey {
+  background-color: #A7A7A7;
+}
+
+#modaleSuppr #modaleButtonJs {
+  border: none;
+  background-color: inherit;
 }
 
 body {

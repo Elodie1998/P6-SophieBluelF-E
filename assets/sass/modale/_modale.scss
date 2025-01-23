@@ -1,5 +1,6 @@
 
 @import "../page-connexion/connecter";
+@import "../contact";
 
 .modale {
     position: fixed;
@@ -15,8 +16,8 @@
         width: 100%;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-        grid-column-gap: 10px;
-        grid-row-gap: 10px;
+        grid-column-gap: 20px;
+        grid-row-gap: 15px;
         padding-bottom: 0;
     }
 
@@ -32,6 +33,33 @@
             display: block;
         }
     }
+
+    &-ajout-form {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.ajout-photo-categorie {
+    padding: 20px 0;
+}
+
+#ajout form {
+    @include contactetAjoutForm;
+    margin-bottom: 50px;
+}
+
+.ajouter-photo-rectangle {
+    margin: auto;
+    width: 420px;
+    height: 169px;
+    border-radius: 3px 0px 0px 0px;
+    background-color: #E8F1F6;
+}
+
+#modale #ajout input {
+    width: 420px;
+    margin: auto;
 }
 
 .affiche-poubelle {
@@ -48,6 +76,23 @@
     color: white;
     background-color: black;
     padding: 4px;
+}
+
+.fleche-gauche-modale {
+    display: block;
+    border: none;
+    background-color: white;
+    padding-top: 30px;
+}
+
+.fa-arrow-left {
+    display: flex;
+    justify-content: left;
+}
+
+.fa-image {
+    color: #B9C5CC;
+    font-size: 75px;
 }
 
 .fermer-modale {
@@ -73,7 +118,7 @@
     border-radius: 10px 0px 0px 0px;
     background-color: white;
     margin-top: 6px;
-    padding: 10px 40px;
+    padding: 0 40px;
 
     &__h1 {
         font-family: 'Work Sans';
@@ -83,7 +128,6 @@
         font-size: 24px;
         line-height: 30px;
         padding-top: 28px;
-        height: 30px;
         padding-bottom: 50px;
     }
 }
@@ -96,4 +140,19 @@ hr {
     @include section-input;
     width: 240px;
     margin: 0.6em auto;
+}
+
+// #modale .modale-ajout input {
+//     @include section-input;
+//     width: 240px;
+//     margin: 2em auto;
+// }
+
+#button-grey {
+    background-color: #A7A7A7;
+}
+
+#modaleSuppr #modaleButtonJs {
+    border: none;
+    background-color: inherit;
 }

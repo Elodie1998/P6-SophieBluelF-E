@@ -18,17 +18,50 @@
 	<!-- aside car contenu non principal-->
 
 	<aside id="modale" class="modale" aria-hidden="true" style="display: none" role="dialog" aria-modal="false" aria-labelledby="modale-titre">
-        <div class="contenu-modale modale-js-arreter">
-			<div class="fermer-modale-conteneur">
-				<button class="modale-js-fermer fermer-modale" aria-label = "Fermer la boîte">
-					<i class="fa-solid fa-xmark"></i>
-				</button>
+		
+		<div class="contenu-modale modale-js-arreter">
+			<div class="modale-suppr">
+				<div id="modaleSuppr">
+					<button class="modale-js-fermer fermer-modale" aria-label = "Fermer la boîte">
+						<i class="fa-solid fa-xmark"></i>
+					</button>
+        			<h1 class="contenu-modale__h1">Galerie photo</h1>
+				<div class="modale-gallery"></div>
+				<hr/>
+					<button id="modaleButtonJs" class="modale-button-js">
+						<input class="ajout-photo" type="submit" value="Ajouter une photo">
+        			</button>
+				</div>
 			</div>
-        	<h1 class="contenu-modale__h1">Galerie photo</h1>
-			<div class="modale-gallery"></div>
-			<hr/>
-			<div class="modale-button-js">
-				<input class="ajout-photo" type="submit" value="Ajouter une photo">
+
+			<div id="modaleAjout" style="display: none;">
+            	<div class="fermer-modale-conteneur">
+            		<button class="fleche-gauche-modale" aria-label = "Revenir en arrière">
+						<i id="iconeFlecheGauche" class="fa-solid fa-arrow-left"></i>
+					</button>
+					<button class="modale-js-fermer fermer-modale" aria-label = "Fermer la boîte">
+						<i class="fa-solid fa-xmark"></i>
+					</button>
+				</div>
+        		<h1 class="contenu-modale__h1">Ajout photo</h1>
+            	<div class="ajouter-photo-rectangle">
+                	<i class="fa-regular fa-image"></i>
+                	<p>jpg, png : 4mo max</p>
+            	</div>
+				<div class="ajout-photo-form">
+            	    <div id="ajout">
+                	    <form class="modale-ajout-form" action="#" method="post">
+			        	    <label for="title">Titre</label>
+			            	<input class="modale-ajout-form input" type="text" name="name" id="name">
+			            	<label class="ajout-photo-categorie" for="category">Catégorie</label>
+			            	<input type="category" name="category" id="category">
+		            	</form>
+                	</div>
+            	</div>
+				<hr/>
+				<div class="modale-button-js">
+					<input class="ajout-photo" id="button-grey" type="submit" value="Valider">
+        		</div>
         	</div>
 		</div>
     </aside>

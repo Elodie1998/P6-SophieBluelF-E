@@ -1,4 +1,11 @@
 
+@mixin contactetAjoutForm {
+    text-align: left;
+    margin-top:30px;
+    display: flex;
+    flex-direction: column;
+}
+
 #contact {
 	width: 50%;
     margin: auto;
@@ -12,10 +19,7 @@
     }
     
     & form {
-        text-align: left;
-        margin-top:30px;
-        display: flex;
-        flex-direction: column;
+        @include contactetAjoutForm;
     }
 
     & input {
