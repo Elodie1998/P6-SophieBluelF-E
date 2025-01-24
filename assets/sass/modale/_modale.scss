@@ -40,8 +40,25 @@
     }
 }
 
-.ajout-photo-categorie {
-    padding: 20px 0;
+#modale #file {
+    box-shadow: none;
+    margin: auto;
+    display: none;
+}
+
+#ajout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    & .ajout-photo-titre {
+        padding-bottom: 10px;
+    }
+
+    & .ajout-photo-categorie {
+        padding: 20px 0 10px 0;
+    }
 }
 
 #ajout form {
@@ -49,12 +66,49 @@
     margin-bottom: 50px;
 }
 
-.ajouter-photo-rectangle {
+.ajouter-photo {
+    width: 173px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: auto;
-    width: 420px;
-    height: 169px;
-    border-radius: 3px 0px 0px 0px;
-    background-color: #E8F1F6;
+    cursor: pointer;
+
+
+    &-rectangle {
+        display: flex;
+        flex-direction: column;
+        width: 420px;
+        height: 169px;
+        border-radius: 3px 0px 0px 0px;
+        background-color: #E8F1F6;
+        padding: 10px 0;
+        margin: auto;
+
+        & label {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50px;
+            color: #306685;
+            background-color: #CBD6DC;
+            height: 40px;
+            width: 170px;
+            margin: auto;
+            cursor: pointer;
+        }
+
+        #affichage-photo {
+            margin: auto;
+            width: 245px;
+        }
+    }
+}
+
+.photo-taille-max {
+    padding-top: 10px;
+    padding-bottom: 20px;
 }
 
 #modale #ajout input {
@@ -142,12 +196,6 @@ hr {
     margin: 0.6em auto;
 }
 
-// #modale .modale-ajout input {
-//     @include section-input;
-//     width: 240px;
-//     margin: 2em auto;
-// }
-
 #button-grey {
     background-color: #A7A7A7;
 }
@@ -155,4 +203,13 @@ hr {
 #modaleSuppr #modaleButtonJs {
     border: none;
     background-color: inherit;
+}
+
+#ajout #selectionCategories {
+    width: 420px;
+    margin: auto;
+    @include section-input;
+    background-color: white;
+    cursor: pointer;
+    color: #444444;
 }

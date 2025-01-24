@@ -386,8 +386,23 @@ section {
   flex-direction: column;
 }
 
-.ajout-photo-categorie {
-  padding: 20px 0;
+#modale #file {
+  box-shadow: none;
+  margin: auto;
+  display: none;
+}
+
+#ajout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#ajout .ajout-photo-titre {
+  padding-bottom: 10px;
+}
+#ajout .ajout-photo-categorie {
+  padding: 20px 0 10px 0;
 }
 
 #ajout form {
@@ -398,12 +413,45 @@ section {
   margin-bottom: 50px;
 }
 
-.ajouter-photo-rectangle {
+.ajouter-photo {
+  width: 173px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: auto;
+  cursor: pointer;
+}
+.ajouter-photo-rectangle {
+  display: flex;
+  flex-direction: column;
   width: 420px;
   height: 169px;
   border-radius: 3px 0px 0px 0px;
   background-color: #E8F1F6;
+  padding: 10px 0;
+  margin: auto;
+}
+.ajouter-photo-rectangle label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  color: #306685;
+  background-color: #CBD6DC;
+  height: 40px;
+  width: 170px;
+  margin: auto;
+  cursor: pointer;
+}
+.ajouter-photo-rectangle #affichage-photo {
+  margin: auto;
+  width: 245px;
+}
+
+.photo-taille-max {
+  padding-top: 10px;
+  padding-bottom: 20px;
 }
 
 #modale #ajout input {
@@ -500,6 +548,18 @@ hr {
 #modaleSuppr #modaleButtonJs {
   border: none;
   background-color: inherit;
+}
+
+#ajout #selectionCategories {
+  width: 420px;
+  margin: auto;
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  background-color: white;
+  cursor: pointer;
+  color: #444444;
 }
 
 body {

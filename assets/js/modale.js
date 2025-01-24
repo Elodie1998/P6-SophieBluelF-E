@@ -68,3 +68,43 @@ window.addEventListener("keydown", function (e) {
         focusDsModale(e);
     }
 })
+
+// Modale ajout photo
+
+const ajouterPhotoInput = document.getElementById("modaleButtonJs");
+ajouterPhotoInput.addEventListener("click", revenirModaleSuppr);
+const flecheGaucheModale = document.querySelector(".fleche-gauche-modale");
+flecheGaucheModale.addEventListener("click", revenirModaleSuppr);
+
+function revenirModaleSuppr() {
+    const modaleAffichee = document.getElementById("modaleSuppr");
+    const modaleAjout = document.getElementById("modaleAjout");
+
+    if (modaleAffichee.style.display === "block" || modaleAffichee.style.display === "") {
+        modaleAffichee.style.display = "none";
+        modaleAjout.style.display = "block";
+        console.log("fait");
+    } else {
+        modaleAffichee.style.display = "block";
+        modaleAjout.style.display = "none";
+        console.log("toggle");
+    }
+}
+
+// récupération image sélectionnée
+document.getElementById("file").addEventListener("change", function(event) {
+    const file = event.target.files[0]; // Prend le 1er fichier sélectionné
+    if(file) {
+        const lire = new FileReader();// création d'1 nouvelle instance de FileReader
+
+        // Définir le comportement 1 fois le fichier lu
+        lire.onload = function(e) {
+            const apercu = document.getElementById("apercu");// Affichage de l'image ds balise img
+            apercu.src = e.target.result; // chemin de l'image sélectionnée
+            apercu.style.display = "block"; // affiche l'image
+        };
+
+        // Lire le fichier comme 1 URL de données
+        lire.readAsDataURL(file);// lit le fichier c URL de données pr afficher img ds sa balise
+    }
+})
