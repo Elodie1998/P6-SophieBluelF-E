@@ -2,7 +2,6 @@
 
 function afficherModeEdition() {
     if (sessionStorage.connexToken) {
-        console.log("ok");
 
         const bannerEdition = document.createElement("div")
         bannerEdition.classList = "edition";

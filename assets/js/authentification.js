@@ -10,6 +10,8 @@ async function ajoutListenerAuthentification() {
             email : document.getElementById("email").value,
             password : document.getElementById("password").value
         }
+
+        console.log(utilisateur);
     
     const chargeUtile = JSON.stringify(utilisateur);
     

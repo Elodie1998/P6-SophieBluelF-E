@@ -368,7 +368,7 @@ section {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-column-gap: 20px;
-  grid-row-gap: 15px;
+  grid-row-gap: 10px;
   padding-bottom: 0;
 }
 .modale img {
@@ -385,6 +385,9 @@ section {
   display: flex;
   flex-direction: column;
 }
+.modale-button-js {
+  padding-top: 25px;
+}
 
 #modale #file {
   box-shadow: none;
@@ -400,11 +403,34 @@ section {
 }
 #ajout .ajout-photo-titre {
   padding-bottom: 10px;
+  padding-top: 30px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  line-height: 16.42px;
 }
 #ajout .ajout-photo-categorie {
   padding: 20px 0 10px 0;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  line-height: 16.42px;
 }
-
+#ajout .ajout-selectionCategories {
+  margin-bottom: 30px;
+}
+#ajout #selectionCategories {
+  width: 420px;
+  height: 50px;
+  font-size: 1.2em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+  background-color: white;
+  cursor: pointer;
+  color: #444444;
+  font-size: 14px;
+  padding-left: 16px;
+}
 #ajout form {
   text-align: left;
   margin-top: 30px;
@@ -429,8 +455,7 @@ section {
   height: 169px;
   border-radius: 3px 0px 0px 0px;
   background-color: #E8F1F6;
-  padding: 10px 0;
-  margin: auto;
+  margin: 0 auto;
 }
 .ajouter-photo-rectangle label {
   display: flex;
@@ -445,8 +470,14 @@ section {
   cursor: pointer;
 }
 .ajouter-photo-rectangle #affichage-photo {
-  margin: auto;
-  width: 245px;
+  margin: -10px auto 0 auto;
+}
+.ajouter-photo-rectangle #affichage-photo img {
+  -o-object-fit: fill;
+     object-fit: fill;
+  width: 150px;
+  height: 190px;
+  display: none;
 }
 
 .photo-taille-max {
@@ -457,6 +488,9 @@ section {
 #modale #ajout input {
   width: 420px;
   margin: auto;
+  font-size: 14px;
+  color: #444444;
+  padding-left: 16px;
 }
 
 .affiche-poubelle {
@@ -480,6 +514,7 @@ section {
   border: none;
   background-color: white;
   padding-top: 30px;
+  cursor: pointer;
 }
 
 .fa-arrow-left {
@@ -490,6 +525,7 @@ section {
 .fa-image {
   color: #B9C5CC;
   font-size: 75px;
+  padding-top: 20px;
 }
 
 .fermer-modale {
@@ -504,6 +540,7 @@ section {
   font-weight: bold;
   display: flex;
   justify-content: end;
+  cursor: pointer;
 }
 
 .contenu-modale {
@@ -524,8 +561,9 @@ section {
   text-align: center;
   font-size: 24px;
   line-height: 30px;
-  padding-top: 28px;
-  padding-bottom: 50px;
+  padding-top: 40px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 hr {
@@ -548,18 +586,6 @@ hr {
 #modaleSuppr #modaleButtonJs {
   border: none;
   background-color: inherit;
-}
-
-#ajout #selectionCategories {
-  width: 420px;
-  margin: auto;
-  height: 50px;
-  font-size: 1.2em;
-  border: none;
-  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-  background-color: white;
-  cursor: pointer;
-  color: #444444;
 }
 
 body {

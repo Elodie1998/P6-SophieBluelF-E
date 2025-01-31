@@ -26,8 +26,8 @@
 						<i class="fa-solid fa-xmark"></i>
 					</button>
         			<h1 class="contenu-modale__h1">Galerie photo</h1>
-				<div class="modale-gallery"></div>
-				<hr/>
+					<div class="modale-gallery"></div>
+					<hr/>
 					<button id="modaleButtonJs" class="modale-button-js">
 						<input class="ajout-photo" type="submit" value="Ajouter une photo">
         			</button>
@@ -44,36 +44,37 @@
 					</button>
 				</div>
         		<h1 class="contenu-modale__h1">Ajout photo</h1>
-            	<div class="ajouter-photo-rectangle">
-					<div id="affichage-photo">
-                		<i class="fa-regular fa-image"></i>
-						<form action="#" method="post">
-							<label for="file">+ Ajouter photo</label>
-							<input class="ajouter-photo" type="file" id="file" accept="image/*" />
-							<img id="apercu" src="" alt="Aperçu de l'image" style="display: none;">
-                			<p class="photo-taille-max">jpg, png : 4mo max</p>
-						</form>
+				<form id="ajoutPhotoFormulaire" action="#" method="post">
+					<div class="ajouter-photo-rectangle">
+						<div class="form-verif" id="affichage-photo">
+							<img id="apercu" src="" alt="">
+							<div class="photo-ajoutee">
+								<i class="fa-regular fa-image"></i>
+								<div>
+									<label for="file">+ Ajouter photo</label>
+									<input class="ajouter-photo" type="file" id="file" accept="image/jpeg, image/png" required />
+                					<p class="photo-taille-max">jpg, png : 4mo max</p>
+								</div>
+							</div>
+						</div>
 					</div>
-            	</div>
-				<div class="ajout-photo-form">
-            	    <div id="ajout">
-                	    <form class="modale-ajout-form" action="#" method="post">
-			        	    <label class="ajout-photo-titre" for="title">Titre</label>
-			            	<input class="modale-ajout-form input" type="text" name="name" id="name">
-			            	<label class="ajout-photo-categorie" for="category">Catégorie</label>
-			            	<select name="category" id="selectionCategories">
-								<option value=""></option>
-								<option value="objets">Objets</option>
-								<option value="appartements">Appartements</option>
-								<option value="hotels&restaurants">Hotels & restaurants</option>
-							</select>
-		            	</form>
-                	</div>
-            	</div>
-				<hr/>
-				<div class="modale-button-js">
-					<input class="ajout-photo" id="button-grey" type="submit" value="Valider">
-        		</div>
+					<div class="ajout-photo-form">
+            	    	<div id="ajout">
+                	   		<div class="modale-ajout-form">
+			        	    	<label class="ajout-photo-titre" for="title">Titre</label>
+			            		<input class="modale-ajout-form form-verif" type="text" name="titre" id="titre" required>
+			            		<label class="ajout-photo-categorie" for="category">Catégorie</label>
+			            		<select name="category" class="ajout-selectionCategories form-verif" id="selectionCategories" required>
+									<option value=""></option>
+								</select>
+		            		</div>
+                		</div>
+            		</div>
+					<hr/>
+					<div class="modale-button-js">
+						<input class="ajout-photo" id="button-grey" type="submit" value="Valider">
+        			</div>
+				</form>
         	</div>
 		</div>
     </aside>
