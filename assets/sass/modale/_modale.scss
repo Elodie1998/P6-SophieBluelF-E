@@ -47,7 +47,9 @@
 #modale #file {
     box-shadow: none;
     margin: auto;
-    display: none;
+    position: absolute;
+    top: 90px;
+    z-index: -1;
 }
 
 #ajout {
@@ -127,6 +129,7 @@
 
         #affichage-photo {
             margin: -10px auto 0 auto;
+            position: relative;
 
             & img {
                 object-fit: fill;

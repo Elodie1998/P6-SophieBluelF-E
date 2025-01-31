@@ -149,8 +149,9 @@ async function recuperationCategories() {
         const categorySelect = document.getElementById("selectionCategories");
         categories.forEach(category => {
             const option = document.createElement('option');
-            option.innerHTML = category.name; // Définit le texte de l'option
-            categorySelect.appendChild(option); // Ajoute l'option au menu déroulant
+            option.innerHTML = category.name; // Définit le texte des options
+            option.value = category.id;// Donne l'identifiant de chaque option à la valeur des options 
+            categorySelect.appendChild(option); // Ajoute les options au menu déroulant
         })
 
     } catch (erreur) {//si erreur
@@ -158,6 +159,8 @@ async function recuperationCategories() {
     }
 }
 recuperationCategories();//appel pr recup catégories dispo via API
+
+// Fonction bouton valider ajout photo
 
 function validerAjoutPhoto(event) {
 
@@ -180,7 +183,6 @@ function validerAjoutPhoto(event) {
                 img.src = e.target.result; // chemin de l'image sélectionnée
                 img.alt = "Apercu de l'image";
                 img.style.display = "block"; // affiche l'image
-                // document.getElementById("affichage-photo").appendChild(img);
                 document.querySelector(".photo-ajoutee").style.display = "none"; //masque éléments pr afficher l'image
             };
 
@@ -190,10 +192,11 @@ function validerAjoutPhoto(event) {
             alert("Vous devez sélectionner une image au format JPG ou PNG uniquement.")
         }
     });
-  
+
     const inputTitre = document.getElementById("titre");
     let valeurTitre = "";
     let categorieSelectionee = "";
+    
   
     document.getElementById("selectionCategories").addEventListener("change", function () {
         categorieSelectionee = this.value;
@@ -209,13 +212,13 @@ function validerAjoutPhoto(event) {
       event.preventDefault();
 
       //Pr vérifier si ts les champs st remplis
-      const nouvelleImage = document.getElementById("apercu").required;
-      console.log(nouvelleImage);
-      if (nouvelleImage && valeurTitre && categorieSelectionee) {
+    const nouvelleImage = document.querySelector(".ajouter-photo").value;
+    console.log(nouvelleImage);
+    if (nouvelleImage && valeurTitre && categorieSelectionee) {
         const formData = new FormData();
   
-        formData.append("file", file);// Pr l'ajout du fichier
-        formData.append("titre", valeurTitre);// Pr l'ajout du titre
+        formData.append("image", file);// Pr l'ajout du fichier
+        formData.append("title", valeurTitre);// Pr l'ajout du titre
         formData.append("category", categorieSelectionee);// Pr l'ajout de la catégorie
   
         const token = sessionStorage.connexToken;
@@ -234,6 +237,7 @@ function validerAjoutPhoto(event) {
                 },
                 body: formData
             });
+            console.log(reponse);
             if (reponse.ok) {
                 let resultat = await reponse.json();
                 console.log(resultat);
@@ -263,5 +267,3 @@ function validerAjoutPhoto(event) {
   document.querySelector(".ajout-photo").addEventListener("click", function() {
     validerAjoutPhoto();
 });
-
-// fonction bouton valider ajout photo

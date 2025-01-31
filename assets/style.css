@@ -392,7 +392,9 @@ section {
 #modale #file {
   box-shadow: none;
   margin: auto;
-  display: none;
+  position: absolute;
+  top: 90px;
+  z-index: -1;
 }
 
 #ajout {
@@ -471,6 +473,7 @@ section {
 }
 .ajouter-photo-rectangle #affichage-photo {
   margin: -10px auto 0 auto;
+  position: relative;
 }
 .ajouter-photo-rectangle #affichage-photo img {
   -o-object-fit: fill;
