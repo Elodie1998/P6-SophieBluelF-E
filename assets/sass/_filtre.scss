@@ -17,10 +17,16 @@
 	    color: #1D6154;
 	    cursor: pointer;
 
-        &:hover {
+		&:hover {
             background-color: #1D6154;
             color: white;
         }
     }
+
+	.filtre-selectionne {
+		background-color: #1D6154;
+        color: white;
+	}
+
 }
 /*fin de l'ajout de css*/

@@ -162,8 +162,9 @@ recuperationCategories();//appel pr recup catégories dispo via API
 
 // Fonction bouton valider ajout photo
 
-function validerAjoutPhoto(event) {
+function validerAjoutPhoto() {
 
+    //Réinitialisation des champs du formualaire
     document.getElementById("titre").value = "";
     document.getElementById("selectionCategories").value = "";
     
@@ -240,7 +241,11 @@ function validerAjoutPhoto(event) {
             console.log(reponse);
             if (reponse.ok) {
                 let resultat = await reponse.json();
-                console.log(resultat);
+                // console.log(resultat);
+
+                // Pr ajout du nveau travail aux galeries sans recharger la page
+                ajouterTravailGaleries(resultat);
+                
             } else {
                 const boiteErreur = document.createElement("div");
                 boiteErreur.classList.add("erreur");
@@ -264,6 +269,31 @@ function validerAjoutPhoto(event) {
     });
   }
 
-  document.querySelector(".ajout-photo").addEventListener("click", function() {
+function ajouterTravailGaleries(travail) {
+    const galerie = document.querySelector(".gallery");
+    const galerieModale = document.querySelector(".modale-gallery");
+    const nouveauTravailModale = document.createElement("figure")
+    const nouveauTravail = document.createElement("figure");
+
+    console.log(travail);
+
+    nouveauTravail.innerHTML = `
+        <div class="modale-projet-conteneur">
+            <img src="${travail.imageUrl}" alt="${travail.title}">
+            <figcaption>${travail.title}</figcaption>
+            <i data-projet="${travail.id}" class="fa-solid fa-trash-can affiche-poubelle"></i>
+        </div>
+    `;
+
+    nouveauTravailModale.innerHTML = `
+        <img src=${travail.imageUrl} alt=${travail.title}>
+		<figcaption>${travail.title}</figcaption>
+    `;
+
+    galerie.appendChild(nouveauTravail);
+    galerieModale.appendChild(nouveauTravailModale);
+  }
+
+document.querySelector(".ajout-photo").addEventListener("click", function() {
     validerAjoutPhoto();
 });

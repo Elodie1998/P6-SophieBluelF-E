@@ -1,7 +1,7 @@
 async function recuperationTravaux(filtre) { //opé asynchrones (tps), await gère promesses + facilement; filtre = catégorie spé
     document.querySelector(".gallery").innerHTML = "";//vide gallery avant chargement nveaux travaux
-    document.querySelector(".modale-gallery").innerHTML = "";
-    try { //tester code = requête API
+    document.querySelector(".modale-gallery").innerHTML = "";//vide gallery de modale suppr avant chargement nveaux travaux
+    try { // requête API
         const reponseT = await fetch("http://localhost:5678/api/works");//requête API recup travaux, attend promesse pr continuer
         if (!reponseT.ok) {//si réponse API différent de "ok"
             throw new Erreur("Erreur lors de la récupération des données");//erreur levée
@@ -20,7 +20,7 @@ async function recuperationTravaux(filtre) { //opé asynchrones (tps), await gè
             }   
         }
 
-        //Suppression
+        //Suppression par les icônes poubelles
         const iconePoubelle = document.querySelectorAll(".fa-trash-can");
         console.log(iconePoubelle);
         iconePoubelle.forEach((e) => 
@@ -73,11 +73,23 @@ async function obtenirCategories() {
 obtenirCategories();//appel pr recup catégories dispo via API
 
 function afficherFiltres(info) {
-    // console.log(info);//afficher ttes les catégories ss forme d'objets
+    console.log(info);//afficher ttes les catégories ss forme d'objets
     const divConteneur = document.createElement("div");//creation elements div pr chaque catégorie
-    divConteneur.className = info.name;//attribution nom de classe aux div créés
+    divConteneur.className = info.name;//attribution nom de classe aux div créés (catégorie)
+    // console.log(info.name);
     divConteneur.addEventListener("click", () => recuperationTravaux(info.id));//gestion d'événement qui appelle recuperationTravaux ac pr paramètre  celui qui contient les infos sur projets 
+    divConteneur.addEventListener("click", (event) => filtreBascule(event));
+    document.querySelector(".tous").addEventListener("click", (event) => filtreBascule(event));
     divConteneur.innerHTML = `${info.name}`;//texte pr afficher entre les balises ouvrantes & fermantes des div créés
     document.querySelector(".div-conteneur").appendChild(divConteneur);//lie le parent dt classe est div-conteneur aux div créés
 }
+
+function filtreBascule(event) {
+    const conteneur = document.querySelector(".div-conteneur");
+    Array.from(conteneur.children).forEach((child) =>
+        child.classList.remove("filtre-selectionne")
+    );
+    event.target.classList.add("filtre-selectionne");
+}
+
 document.querySelector(".tous").addEventListener("click", () => recuperationTravaux());//ajout événement aux btns ac classe "tous" pr appeler fction recuperationTravaux() sans filtrer, afficher ts les projets

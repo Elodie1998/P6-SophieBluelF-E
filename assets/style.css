@@ -50,6 +50,10 @@
   background-color: #1D6154;
   color: white;
 }
+.div-conteneur .filtre-selectionne {
+  background-color: #1D6154;
+  color: white;
+}
 
 /*fin de l'ajout de css*/
 footer nav ul {
