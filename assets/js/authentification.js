@@ -23,7 +23,7 @@ async function ajoutListenerAuthentification() {
 
     console.log(reponseRecu);
 
-    if(reponseRecu.ok === false) {//si erreur d'authentification
+    if(!reponseRecu.ok) {//si erreur d'authentification
         let texteErreur = document.querySelector("#connexionform .erreur");
 
         if(texteErreur) {//si existe déjà, MAJ (message non répété)

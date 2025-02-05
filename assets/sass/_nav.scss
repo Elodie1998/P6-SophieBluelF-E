@@ -8,9 +8,13 @@ nav ul {
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
+
+	&:hover {
+		font-weight: 700;
+	}
 }
 
 li:hover {
-	color: #B1663C;
+	// color: #B1663C;
     cursor: pointer;
 }

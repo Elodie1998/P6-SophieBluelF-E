@@ -70,13 +70,14 @@ window.addEventListener("keydown", function (e) {
 })
 
 //fonction suppression
+let projetsSupprimes = []; // Tableau pr stocker IDs des projets suppr
+
 async function supprTravaux(event) {
     console.log(event);
-    const id = event.target.dataset.projet; //ID du projet à suppr
+    let id = event.target.dataset.projet; //ID du projet à suppr
+    console.log(id);
     const supprApi = "http://localhost:5678/api/works/";
     const token = sessionStorage.connexToken;
-    // console.log("Token : ", token);
-    // console.log("ID à suppr : ", id);
 
     let reponseRecu = await fetch (supprApi + id, {
         method: "DELETE",
@@ -94,24 +95,49 @@ async function supprTravaux(event) {
     } else {
         //Suppr fait  - MAJ interface utilisateur
         //Récup et suppr du DOM l'élément projet correspondant
-        console.log("ID du projet à suppr : ", id);
-        console.log("Essaye de trouver l'élément ac l'ID :", "projet-" + id);
-        const projetElement = document.getElementById("projet-" + id);// Vérifie ID corr à celui du projet
-        const galleryElement = document.getElementById("gallery-" + id);
+        projetsSupprimes.push(id); // Pr ajouter ID à la liste des projets suppr
+        console.log(`Projet avec ID ${id} suppr avec succès.`);
 
-        console.log("Element trouvé :", projetElement);
-        if (projetElement) {
-            projetElement.remove(); //suppr l'element du DOM
-            console.log("Projet supprimé avec succès.");
+        // Pr recharger les projets afin de MAJ l'interface et la modale
+        await rechargerProjets(); // Pr recharger liste des projets afin de refléter changements
+        console.log("Projet supprimé : ", projetsSupprimes);
+    }
+}
+
+async function rechargerProjets() {
+    const token = sessionStorage.connexToken;
+    try {
+        let reponse = await fetch("http://localhost:5678/api/works", {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                Authorization: "Bearer " + token 
+            }
+        });
+
+        if (reponse.ok) {
+            const projets = await reponse.json();
+            
+            // Pr vider les galeries existantes
+            const galerie = document.querySelector(".gallery");
+            const galerieModale = document.querySelector(".modale-gallery");
+            galerie.innerHTML = "";
+            galerieModale.innerHTML = "";
+
+            // Récup du dernier ID
+            const dernierId = projets.length > 0 ? Math.max(...projets.map(p => p.id)) : 0;
+
+            // Ajouter chaque projet dans les galeries et ajuster les IDs
+            projets.forEach(projet => {
+                projet.id = dernierId + 1
+                ajouterTravailGaleries(projet);
+                console.log(projets);
+            });
         } else {
-            console.log("Element non trouvé pr l'ID : projet-" + id); //Averti si élément n'st pas trouvé
+            console.error("Erreur lors du chargement des projets : ", reponse.status);
         }
-        if (galleryElement) {
-            galleryElement.remove(); //suppr l'element du DOM
-            console.log("Projet supprimé avec succès.");
-        } else {
-            console.log("Element non trouvé pr l'ID : gallery-" + id); //Averti si élément n'st pas trouvé
-        }
+    } catch (erreur) {
+        console.error("Une erreur est survenue : ", erreur);
     }
 }
 
@@ -121,6 +147,8 @@ const ajouterPhotoInput = document.getElementById("modaleButtonJs");
 ajouterPhotoInput.addEventListener("click", revenirModaleSuppr);
 const flecheGaucheModale = document.querySelector(".fleche-gauche-modale");
 flecheGaucheModale.addEventListener("click", revenirModaleSuppr);
+const croixModaleAjout = document.querySelector(".revenir-modale-suppr");
+croixModaleAjout.addEventListener("click", revenirModaleSuppr);
 
 function revenirModaleSuppr() {
     const modaleAffichee = document.getElementById("modaleSuppr");
@@ -148,7 +176,7 @@ async function recuperationCategories() {
 
         const categorySelect = document.getElementById("selectionCategories");
         categories.forEach(category => {
-            const option = document.createElement('option');
+            const option = document.createElement("option");
             option.innerHTML = category.name; // Définit le texte des options
             option.value = category.id;// Donne l'identifiant de chaque option à la valeur des options 
             categorySelect.appendChild(option); // Ajoute les options au menu déroulant
@@ -175,7 +203,7 @@ function validerAjoutPhoto() {
     // Pr écoute l'événement de changement sur le fichier
     inputImage.addEventListener("change", function(event) {
         file = event.target.files[0]; // Prend le 1er fichier sélectionné
-        if(file) {
+        if (file) {
             const lire = new FileReader();// création d'1 nouvelle instance de FileReader
 
             // Définir le comportement 1 fois le fichier lu
@@ -198,13 +226,26 @@ function validerAjoutPhoto() {
     let valeurTitre = "";
     let categorieSelectionee = "";
     
+    // Fonction pr vérif si ts les champs ont été saisis
+    function verifierChamps() {
+        const buttonAjoutCouleur = document.getElementById("button-grey");
+        if (file && valeurTitre && categorieSelectionee) {
+            buttonAjoutCouleur.style.backgroundColor = "#1D6154";
+            buttonAjoutCouleur.classList.add("couleur-survol");
+        } else {
+            buttonAjoutCouleur.style.backgroundColor = "";
+            buttonAjoutCouleur.classList.remove("couleur-survol");
+        }
+    }
   
     document.getElementById("selectionCategories").addEventListener("change", function () {
         categorieSelectionee = this.value;
+        verifierChamps(); // Pr vérif champs à chaque saisie
     });
   
     inputTitre.addEventListener("input", function () {
       valeurTitre = inputTitre.value;
+      verifierChamps(); // Pr vérif champs à chaque saisie
     });
   
     const formulaireAjoutPhoto = document.getElementById("ajoutPhotoFormulaire");
@@ -212,10 +253,11 @@ function validerAjoutPhoto() {
     formulaireAjoutPhoto.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      //Pr vérifier si ts les champs st remplis
-    const nouvelleImage = document.querySelector(".ajouter-photo").value;
-    console.log(nouvelleImage);
-    if (nouvelleImage && valeurTitre && categorieSelectionee) {
+    const buttonAjoutCouleur = document.getElementById("button-grey");
+    if (file && valeurTitre && categorieSelectionee) {
+        buttonAjoutCouleur.style.backgroundColor = "#1D6154";
+        buttonAjoutCouleur.classList.add("couleur-survol");
+
         const formData = new FormData();
   
         formData.append("image", file);// Pr l'ajout du fichier
@@ -241,58 +283,83 @@ function validerAjoutPhoto() {
             console.log(reponse);
             if (reponse.ok) {
                 let resultat = await reponse.json();
-                // console.log(resultat);
+                console.log(resultat);
 
                 // Pr ajout du nveau travail aux galeries sans recharger la page
                 ajouterTravailGaleries(resultat);
-                
-            } else {
-                const boiteErreur = document.createElement("div");
-                boiteErreur.classList.add("erreur");
-                boiteErreur.innerHTML = "Il y a eu une erreur.";
-                document.getElementById("ajoutPhotoFormulaire").prepend(boiteErreur); 
 
-                const texteErreur = await reponse.text();
-                console.error("Erreur : ", texteErreur);
-                document.getElementById("ajoutPhotoFormulaire").prepend(boiteErreur);
+                //Pr réinitialiser les champs
+                document.getElementById("titre").value = "";
+                document.getElementById("selectionCategories").value = "";
+                document.getElementById("file").value = "";
+                
+                const img = document.getElementById("apercu");
+                img.style.display = "none";
+                img.src = "";
+
+                console.log("Projet ajouté avec succès et galeries mises à jour.");
+
+                document.querySelector(".photo-ajoutee").style.display = "block";
+
+                const succesAjoutPhoto = document.querySelector(".modale-button-js");
+                succesAjoutPhoto.addEventListener("submit", revenirModaleSuppr);
+            } else {
+                afficherErreur(reponse);
             }
-      } catch (erreur) {
+        } catch (erreur) {
         console.error("Une erreur est survenue : ", erreur);
-        const boiteErreur = document.createElement("div");
-        boiteErreur.classList.add("erreur");
-        boiteErreur.innerHTML = "Il y a eu une erreur de connexion.";
-        document.getElementById("ajoutPhotoFormulaire").prepend(boiteErreur);
-      }
+        afficherErreurConnexion();
+        }
     } else {
         alert("Veuillez remplir tous les champs.");
     }
-    });
-  }
+}); 
+}
 
-function ajouterTravailGaleries(travail) {
+function ajouterTravailGaleries(resultat) {
     const galerie = document.querySelector(".gallery");
     const galerieModale = document.querySelector(".modale-gallery");
-    const nouveauTravailModale = document.createElement("figure")
+
+    console.log(resultat);
+
     const nouveauTravail = document.createElement("figure");
-
-    console.log(travail);
-
+    // nouveauTravail.id = `gallery-${id}`;
     nouveauTravail.innerHTML = `
-        <div class="modale-projet-conteneur">
-            <img src="${travail.imageUrl}" alt="${travail.title}">
-            <figcaption>${travail.title}</figcaption>
-            <i data-projet="${travail.id}" class="fa-solid fa-trash-can affiche-poubelle"></i>
-        </div>
+        <img src=${resultat.imageUrl} alt=${resultat.title}>
+		<figcaption>${resultat.title}</figcaption>
     `;
 
+    const nouveauTravailModale = document.createElement("figure");
     nouveauTravailModale.innerHTML = `
-        <img src=${travail.imageUrl} alt=${travail.title}>
-		<figcaption>${travail.title}</figcaption>
+        <div class="modale-projet-conteneur"id="projet-${resultat.id}">
+            <img src="${resultat.imageUrl}" alt="${resultat.title}">
+            <figcaption>${resultat.title}</figcaption>
+            <i data-projet="${resultat.id}" class="fa-solid fa-trash-can affiche-poubelle"></i>
+        </div>
     `;
 
     galerie.appendChild(nouveauTravail);
     galerieModale.appendChild(nouveauTravailModale);
-  }
+}
+
+function afficherErreur(reponse) {
+    const boiteErreur = document.createElement("div");
+    boiteErreur.classList.add("erreur");
+    boiteErreur.innerHTML = "Il y a eu une erreur.";
+    document.getElementById("ajoutPhotoFormulaire").prepend(boiteErreur); 
+
+    reponse.texte().then(texteErreur => {
+        console.error("Erreur : ", texteErreur);
+        boiteErreur.innerHTML += `<p>${texteErreur}</p>`;
+    });
+}
+
+function afficherErreurConnexion() {
+    const boiteErreur = document.createElement("div");
+    boiteErreur.classList.add("erreur");
+    boiteErreur.innerHTML = "Il y a eu une erreur de connexion.";
+    document.getElementById("ajoutPhotoFormulaire").prepend(boiteErreur);
+}
 
 document.querySelector(".ajout-photo").addEventListener("click", function() {
     validerAjoutPhoto();

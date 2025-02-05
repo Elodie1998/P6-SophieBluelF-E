@@ -1,3 +1,4 @@
+@import "./utils/variables";
 
 input[type="submit"]{
 	font-family: 'Syne';
@@ -8,4 +9,8 @@ input[type="submit"]{
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
+}
+
+.couleur-survol:hover {
+	background-color: $button-hover-backgroundColor;
 }

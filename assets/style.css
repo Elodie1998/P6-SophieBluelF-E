@@ -73,6 +73,10 @@ input[type=submit] {
   border-radius: 60px;
 }
 
+.couleur-survol:hover {
+  background-color: #0E2F28;
+}
+
 .gallery {
   width: 100%;
   display: grid;
@@ -194,9 +198,11 @@ nav li {
   padding: 0 10px;
   font-size: 1.2em;
 }
+nav li:hover {
+  font-weight: 700;
+}
 
 li:hover {
-  color: #B1663C;
   cursor: pointer;
 }
 
@@ -235,7 +241,7 @@ section {
 }
 
 .login {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 #connecter a {
