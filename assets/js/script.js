@@ -7,25 +7,29 @@ async function recuperationTravaux(filtre) { //opé asynchrones (tps), await gè
             throw new Erreur("Erreur lors de la récupération des données");//erreur levée
         }
         const travaux = await reponseT.json(); // Convertion réponse en JSON, accès + facilement données
-        if (filtre) {//si filtre fourni = a 1 valeur
-            const estFiltre = travaux.filter((info) => info.categoryId === filtre); //travaux filtrés par catégorie via filter() 
-            for (let i = 0; i < estFiltre.length; i++) {//pr chaque travail (filtré)
-                obtenirProjet(estFiltre[i]);//appel fonction pr ajouter ce projet ds gallery
-                obtenirProjetModale(estFiltre[i]);
-            }
-        } else {//si filtre n'a pas de valeur = tous les projets
-            for (let i = 0; i < travaux.length; i++) {//pr chaque travail (non filtré)
-                obtenirProjet(travaux[i]);//tous les projets ajoutés ds gallery sans filtre
-                obtenirProjetModale(travaux[i]);
-            }   
-        }
+        //Condition plus concise avec opérateur ternaire : op ternaire ? si oui, renvoie exp : si non, renvoie exp
+        const travauxAFiltrer = filtre ? travaux.filter((info) => info.categoryId === filtre) : travaux;
 
-        //Suppression par les icônes poubelles
+        travauxAFiltrer.forEach(travail => {
+            obtenirProjet(travail);
+            obtenirProjetModale(travail);
+        });
+
+        //Ecouteur pr suppression par les icônes poubelles
         const iconePoubelle = document.querySelectorAll(".fa-trash-can");
         console.log(iconePoubelle);
-        iconePoubelle.forEach((e) => 
-            e.addEventListener("click", (event) => supprTravaux(event))
-        );
+        iconePoubelle.forEach((e) => {
+            e.addEventListener("click", (event) => {
+                console.log(event);
+                const id = event.target.dataset.projet;
+                console.log(id);
+                if (id) {
+                    supprTravaux(id);
+                } else {
+                    console.error("ID du projet non défini.");
+                }
+            });
+        });
 
     } catch (erreur) { //si erreur
         console.log("Il y a eu un problème :", erreur); // affiche erreur ds console
@@ -43,7 +47,6 @@ function obtenirProjet(info) {//info : paramètre qui contient infos sur projets
 }
 
 function obtenirProjetModale(info) {
-    // console.log(info);
     const projetModale = document.createElement("figure");
     projetModale.id = `projet-${info.id}`;
     projetModale.innerHTML = `<div class="modale-projet-conteneur">
@@ -76,7 +79,6 @@ function afficherFiltres(info) {
     console.log(info);//afficher ttes les catégories ss forme d'objets
     const divConteneur = document.createElement("div");//creation elements div pr chaque catégorie
     divConteneur.className = info.name;//attribution nom de classe aux div créés (catégorie)
-    // console.log(info.name);
     divConteneur.addEventListener("click", () => recuperationTravaux(info.id));//gestion d'événement qui appelle recuperationTravaux ac pr paramètre  celui qui contient les infos sur projets 
     divConteneur.addEventListener("click", (event) => filtreBascule(event));
     document.querySelector(".tous").addEventListener("click", (event) => filtreBascule(event));

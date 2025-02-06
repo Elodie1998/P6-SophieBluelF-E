@@ -72,10 +72,10 @@ window.addEventListener("keydown", function (e) {
 //fonction suppression
 let projetsSupprimes = []; // Tableau pr stocker IDs des projets suppr
 
-async function supprTravaux(event) {
-    console.log(event);
-    let id = event.target.dataset.projet; //ID du projet à suppr
-    console.log(id);
+async function supprTravaux(id) {
+    // console.log(event);
+    // let id = event.target.dataset.projet; //ID du projet à suppr
+    // console.log(id);
     const supprApi = "http://localhost:5678/api/works/";
     const token = sessionStorage.connexToken;
 
@@ -98,9 +98,17 @@ async function supprTravaux(event) {
         projetsSupprimes.push(id); // Pr ajouter ID à la liste des projets suppr
         console.log(`Projet avec ID ${id} suppr avec succès.`);
 
+        // Retirer l'élément  du DOM
+        const projetElement = document.getElementById(`projet-${id}`);
+        if (projetElement) {
+            projetElement.remove();
+        }
+
         // Pr recharger les projets afin de MAJ l'interface et la modale
         await rechargerProjets(); // Pr recharger liste des projets afin de refléter changements
-        console.log("Projet supprimé : ", projetsSupprimes);
+        console.log("Projets supprimés jusqu'à présent : ", projetsSupprimes);
+        window.location.href = "index.html";
+        alert("Le projet a bien été supprimé.");
     }
 }
 
@@ -129,7 +137,7 @@ async function rechargerProjets() {
 
             // Ajouter chaque projet dans les galeries et ajuster les IDs
             projets.forEach(projet => {
-                projet.id = dernierId + 1
+                projet.id = dernierId + 1;
                 ajouterTravailGaleries(projet);
                 console.log(projets);
             });
@@ -190,76 +198,84 @@ recuperationCategories();//appel pr recup catégories dispo via API
 
 // Fonction bouton valider ajout photo
 
+// Variables pr titre et catégorie
+let valeurTitre = "";
+let categorieSelectionee = "";
+let file;
+
 function validerAjoutPhoto() {
 
     //Réinitialisation des champs du formualaire
     document.getElementById("titre").value = "";
     document.getElementById("selectionCategories").value = "";
+    document.getElementById("file").value = "";
     
     // récupération image sélectionnée
     const inputImage = document.getElementById("file");
-    let file; // déclaration en dehors de l'écouteur de changement
+    // let file; // déclaration en dehors de l'écouteur de changement
+
+    // Pr retirer l'ancien écouteur avant d'en ajouter un nveau
+    inputImage.removeEventListener("change", imageChange);
 
     // Pr écoute l'événement de changement sur le fichier
-    inputImage.addEventListener("change", function(event) {
-        file = event.target.files[0]; // Prend le 1er fichier sélectionné
-        if (file) {
-            const lire = new FileReader();// création d'1 nouvelle instance de FileReader
+    inputImage.addEventListener("change", imageChange);
 
-            // Définir le comportement 1 fois le fichier lu
-            lire.onload = function(e) {
-                const img = document.getElementById("apercu");// Affichage de l'image ds balise img
-                img.src = e.target.result; // chemin de l'image sélectionnée
-                img.alt = "Apercu de l'image";
-                img.style.display = "block"; // affiche l'image
-                document.querySelector(".photo-ajoutee").style.display = "none"; //masque éléments pr afficher l'image
-            };
+    // Fonction pr écouter changements de catégorie
+    document.getElementById("selectionCategories").removeEventListener("change", categorieChange);
+    document.getElementById("selectionCategories").addEventListener("change", categorieChange);
 
-            // Lire le fichier comme 1 URL de données
-            lire.readAsDataURL(file);// lit le fichier c URL de données pr afficher img ds sa balise
-        } else {
-            alert("Vous devez sélectionner une image au format JPG ou PNG uniquement.")
-        }
-    });
-
+    // Pr écouter changements de titre
     const inputTitre = document.getElementById("titre");
-    let valeurTitre = "";
-    let categorieSelectionee = "";
-    
-    // Fonction pr vérif si ts les champs ont été saisis
-    function verifierChamps() {
-        const buttonAjoutCouleur = document.getElementById("button-grey");
-        if (file && valeurTitre && categorieSelectionee) {
-            buttonAjoutCouleur.style.backgroundColor = "#1D6154";
-            buttonAjoutCouleur.classList.add("couleur-survol");
-        } else {
-            buttonAjoutCouleur.style.backgroundColor = "";
-            buttonAjoutCouleur.classList.remove("couleur-survol");
-        }
-    }
-  
-    document.getElementById("selectionCategories").addEventListener("change", function () {
-        categorieSelectionee = this.value;
-        verifierChamps(); // Pr vérif champs à chaque saisie
-    });
-  
-    inputTitre.addEventListener("input", function () {
-      valeurTitre = inputTitre.value;
-      verifierChamps(); // Pr vérif champs à chaque saisie
-    });
-  
-    const formulaireAjoutPhoto = document.getElementById("ajoutPhotoFormulaire");
-  
-    formulaireAjoutPhoto.addEventListener("submit", async (event) => {
-      event.preventDefault();
+    inputTitre.removeEventListener("input", titreInput);
+    inputTitre.addEventListener("input", titreInput);
 
-    const buttonAjoutCouleur = document.getElementById("button-grey");
+    // Pr soumettre formulaire
+    const formulaireAjoutPhoto = document.getElementById("ajoutPhotoFormulaire");
+    formulaireAjoutPhoto.removeEventListener("submit", soumissionFormulaire);
+    formulaireAjoutPhoto.addEventListener("submit", soumissionFormulaire);
+}
+
+function imageChange(event) {
+    file = event.target.files[0]; // Prend le 1er fichier sélectionné
+
+    if (file) {
+        const lire = new FileReader();// création d'1 nouvelle instance de FileReader
+
+        // Définir le comportement 1 fois le fichier lu
+        lire.onload = function(e) {
+            const img = document.getElementById("apercu");// Affichage de l'image ds balise img
+            img.src = e.target.result; // chemin de l'image sélectionnée
+            img.alt = "Apercu de l'image";
+            img.style.display = "block"; // affiche l'image
+            document.querySelector(".photo-ajoutee").style.display = "none"; //masque éléments pr afficher l'image
+        };
+
+        // Lire le fichier comme 1 URL de données
+        lire.readAsDataURL(file);// lit le fichier c URL de données pr afficher img ds sa balise
+    } else {
+        alert("Vous devez sélectionner une image au format JPG ou PNG uniquement.")
+    }
+}
+
+function categorieChange() {
+    categorieSelectionee = this.value;
+    verifierChamps(); // Pr vérif champs à chaque saisie
+}
+
+function titreInput() {
+    valeurTitre = document.getElementById("titre").value;
+    verifierChamps(); // Pr vérif champs à chaque saisie
+}
+
+async function soumissionFormulaire(event) {
+    event.preventDefault();
+
+    const buttonAjoutCouleur = document.querySelector(".succes-ajout-photo");
     if (file && valeurTitre && categorieSelectionee) {
         buttonAjoutCouleur.style.backgroundColor = "#1D6154";
         buttonAjoutCouleur.classList.add("couleur-survol");
 
         const formData = new FormData();
-  
         formData.append("image", file);// Pr l'ajout du fichier
         formData.append("title", valeurTitre);// Pr l'ajout du titre
         formData.append("category", categorieSelectionee);// Pr l'ajout de la catégorie
@@ -280,29 +296,25 @@ function validerAjoutPhoto() {
                 },
                 body: formData
             });
-            console.log(reponse);
+
             if (reponse.ok) {
                 let resultat = await reponse.json();
                 console.log(resultat);
 
                 // Pr ajout du nveau travail aux galeries sans recharger la page
                 ajouterTravailGaleries(resultat);
-
-                //Pr réinitialiser les champs
+                
+                // Pr réinitialiser les champs et la couleur du bouton submit
+                document.querySelector(".photo-ajoutee").style.display = "block";
+                document.getElementById("apercu").style.display = "none";
+                buttonAjoutCouleur.style.backgroundColor = "";
+                buttonAjoutCouleur.classList.remove("couleur-survol");
                 document.getElementById("titre").value = "";
                 document.getElementById("selectionCategories").value = "";
-                document.getElementById("file").value = "";
-                
-                const img = document.getElementById("apercu");
-                img.style.display = "none";
-                img.src = "";
+                window.location.href = "index.html";
 
-                console.log("Projet ajouté avec succès et galeries mises à jour.");
+                alert("Projet ajouté avec succès et galeries mises à jour.");
 
-                document.querySelector(".photo-ajoutee").style.display = "block";
-
-                const succesAjoutPhoto = document.querySelector(".modale-button-js");
-                succesAjoutPhoto.addEventListener("submit", revenirModaleSuppr);
             } else {
                 afficherErreur(reponse);
             }
@@ -313,8 +325,18 @@ function validerAjoutPhoto() {
     } else {
         alert("Veuillez remplir tous les champs.");
     }
-}); 
-}
+}; 
+
+    function verifierChamps() {
+        const buttonAjoutCouleur = document.getElementById("button-grey");
+        if (file && valeurTitre && categorieSelectionee) {
+            buttonAjoutCouleur.style.backgroundColor = "#1D6154";
+            buttonAjoutCouleur.classList.add("couleur-survol");
+        } else {
+            buttonAjoutCouleur.style.backgroundColor = "#A7A7A7";
+            buttonAjoutCouleur.classList.remove("couleur-survol");
+        }
+    }
 
 function ajouterTravailGaleries(resultat) {
     const galerie = document.querySelector(".gallery");
