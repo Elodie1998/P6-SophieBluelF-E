@@ -22,7 +22,6 @@
     }
 
     &-lien {
-        animation: affichageModale 300ms ease-out;
         display: inline-flex;
         padding: 0px 30px;
         font-family: Work Sans;
@@ -40,9 +39,4 @@
 .fa-pen-to-square {
     font-weight: 400;
     padding: 0 10px;
-}
-
-@keyframes affichageModale {
-    from {opacity: 0;}
-    to {opacity: 1;}
 }

@@ -9,8 +9,8 @@ input[type="submit"]{
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
-}
 
-.couleur-survol:hover {
-	background-color: $button-hover-backgroundColor;
+	&:hover {
+		background-color: $button-hover-backgroundColor;
+	}
 }

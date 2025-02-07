@@ -257,23 +257,22 @@ function imageChange(event) {
     }
 }
 
-function categorieChange() {
-    categorieSelectionee = this.value;
+function titreInput() {
+    valeurTitre = document.getElementById("titre").value;
     verifierChamps(); // Pr vérif champs à chaque saisie
 }
 
-function titreInput() {
-    valeurTitre = document.getElementById("titre").value;
+function categorieChange() {
+    categorieSelectionee = this.value;
     verifierChamps(); // Pr vérif champs à chaque saisie
 }
 
 async function soumissionFormulaire(event) {
     event.preventDefault();
 
-    const buttonAjoutCouleur = document.querySelector(".succes-ajout-photo");
     if (file && valeurTitre && categorieSelectionee) {
-        buttonAjoutCouleur.style.backgroundColor = "#1D6154";
-        buttonAjoutCouleur.classList.add("couleur-survol");
+        const buttonAjoutCouleur = document.querySelector(".succes-ajout-photo");
+        buttonAjoutCouleur.classList.add("active");
 
         const formData = new FormData();
         formData.append("image", file);// Pr l'ajout du fichier
@@ -307,8 +306,7 @@ async function soumissionFormulaire(event) {
                 // Pr réinitialiser les champs et la couleur du bouton submit
                 document.querySelector(".photo-ajoutee").style.display = "block";
                 document.getElementById("apercu").style.display = "none";
-                buttonAjoutCouleur.style.backgroundColor = "";
-                buttonAjoutCouleur.classList.remove("couleur-survol");
+                buttonAjoutCouleur.classList.remove("active");
                 document.getElementById("titre").value = "";
                 document.getElementById("selectionCategories").value = "";
                 window.location.href = "index.html";
@@ -328,13 +326,12 @@ async function soumissionFormulaire(event) {
 }; 
 
     function verifierChamps() {
-        const buttonAjoutCouleur = document.getElementById("button-grey");
+        const buttonAjoutCouleur = document.querySelector(".succes-ajout-photo");
         if (file && valeurTitre && categorieSelectionee) {
-            buttonAjoutCouleur.style.backgroundColor = "#1D6154";
-            buttonAjoutCouleur.classList.add("couleur-survol");
+            buttonAjoutCouleur.classList.add("active");
+
         } else {
-            buttonAjoutCouleur.style.backgroundColor = "#A7A7A7";
-            buttonAjoutCouleur.classList.remove("couleur-survol");
+            buttonAjoutCouleur.classList.remove("active");
         }
     }
 
@@ -345,7 +342,6 @@ function ajouterTravailGaleries(resultat) {
     console.log(resultat);
 
     const nouveauTravail = document.createElement("figure");
-    // nouveauTravail.id = `gallery-${id}`;
     nouveauTravail.innerHTML = `
         <img src=${resultat.imageUrl} alt=${resultat.title}>
 		<figcaption>${resultat.title}</figcaption>

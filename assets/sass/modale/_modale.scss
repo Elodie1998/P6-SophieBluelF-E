@@ -1,6 +1,7 @@
 
 @import "../page-connexion/connecter";
 @import "../contact";
+@import "../utils/variables";
 
 .modale {
     position: fixed;
@@ -214,6 +215,7 @@
     background-color: white;
     margin-top: 6px;
     padding: 0 40px;
+    animation: affichageModale 300ms ease-out;
 
     &__h1 {
         font-family: 'Work Sans';
@@ -238,11 +240,29 @@ hr {
     margin: 0.6em auto;
 }
 
-#button-grey {
+.succes-ajout-photo {
     background-color: #A7A7A7;
+
+    &.active {
+        background-color: #1D6154;
+
+        &:hover {
+            background-color: $button-hover-backgroundColor;
+            cursor: pointer;
+        }
+    }
 }
 
 #modaleSuppr #modaleButtonJs {
     border: none;
     background-color: inherit;
+}
+
+@keyframes affichageModale {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
 }

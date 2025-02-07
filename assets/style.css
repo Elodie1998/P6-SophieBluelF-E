@@ -72,8 +72,7 @@ input[type=submit] {
   text-align: center;
   border-radius: 60px;
 }
-
-.couleur-survol:hover {
+input[type=submit]:hover {
   background-color: #0E2F28;
 }
 
@@ -283,7 +282,6 @@ section {
   text-align: center;
 }
 .modifier-lien {
-  animation: affichageModale 300ms ease-out;
   display: inline-flex;
   padding: 0px 30px;
   font-family: Work Sans;
@@ -301,14 +299,6 @@ section {
   padding: 0 10px;
 }
 
-@keyframes affichageModale {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
 #connecter {
   width: 50%;
   margin: 150px auto;
@@ -566,6 +556,7 @@ section {
   background-color: white;
   margin-top: 6px;
   padding: 0 40px;
+  animation: affichageModale 300ms ease-out;
 }
 .contenu-modale__h1 {
   font-family: "Work Sans";
@@ -592,8 +583,15 @@ hr {
   margin: 0.6em auto;
 }
 
-#button-grey {
+.succes-ajout-photo {
   background-color: #A7A7A7;
+}
+.succes-ajout-photo.active {
+  background-color: #1D6154;
+}
+.succes-ajout-photo.active:hover {
+  background-color: #0E2F28;
+  cursor: pointer;
 }
 
 #modaleSuppr #modaleButtonJs {
@@ -601,6 +599,14 @@ hr {
   background-color: inherit;
 }
 
+@keyframes affichageModale {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
 body {
   line-height: 1;
   max-width: 1140px;
