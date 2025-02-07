@@ -76,6 +76,10 @@ input[type=submit]:hover {
   background-color: #0E2F28;
 }
 
+.couleur-survol {
+  cursor: pointer;
+}
+
 .gallery {
   width: 100%;
   display: grid;
@@ -588,7 +592,6 @@ hr {
 }
 .succes-ajout-photo:hover {
   background-color: #0E2F28;
-  cursor: pointer;
 }
 
 #modaleSuppr #modaleButtonJs {
