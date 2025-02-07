@@ -326,12 +326,12 @@ async function soumissionFormulaire(event) {
 }; 
 
     function verifierChamps() {
-        const buttonAjoutCouleur = document.querySelector(".succes-ajout-photo");
+        // const buttonAjoutCouleur = document.querySelector(".succes-ajout-photo");
         if (file && valeurTitre && categorieSelectionee) {
-            buttonAjoutCouleur.classList.add("active");
+            return true;
 
         } else {
-            buttonAjoutCouleur.classList.remove("active");
+            return false;
         }
     }
 
@@ -381,4 +381,35 @@ function afficherErreurConnexion() {
 
 document.querySelector(".ajout-photo").addEventListener("click", function() {
     validerAjoutPhoto();
+});
+
+const fields = document.querySelectorAll("input, select");
+fields.forEach(input => {
+    input.addEventListener("focusout", (e) => {
+        console.log(e.target)
+        if(verifierChamps()) {
+            document.querySelector("#addPicture").style.backgroundColor = "#1D6154";
+            document.querySelector("#addPicture").style.cursor = "pointer";
+            document.querySelector("#addPicture").addEventListener("mouseenter", () => {
+                document.querySelector("#addPicture").style.backgroundColor = "#0E2F28";
+            });
+            document.querySelector("#addPicture").addEventListener("mouseout", () => {
+                document.querySelector("#addPicture").style.backgroundColor = "";
+            });
+        } else {
+            document.querySelector("#addPicture").style.backgroundColor = "#A7A7A7";
+            document.querySelector("#addPicture").style.cursor = "";
+        }
+        console.log(verifierChamps(), file, valeurTitre, categorieSelectionee);
+    });
+});
+
+window.addEventListener("load", (e) => {
+    if(verifierChamps()) {
+        document.querySelector("#addPicture").style.backgroundColor = "#1D6154";
+        document.querySelector("#addPicture").style.cursor = "pointer";
+    } else {
+        document.querySelector("#addPicture").style.backgroundColor = "#A7A7A7";
+        document.querySelector("#addPicture").style.cursor = "";
+    }
 });

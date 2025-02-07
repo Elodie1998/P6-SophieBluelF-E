@@ -586,10 +586,7 @@ hr {
 .succes-ajout-photo {
   background-color: #A7A7A7;
 }
-.succes-ajout-photo.active {
-  background-color: #1D6154;
-}
-.succes-ajout-photo.active:hover {
+.succes-ajout-photo:hover {
   background-color: #0E2F28;
   cursor: pointer;
 }

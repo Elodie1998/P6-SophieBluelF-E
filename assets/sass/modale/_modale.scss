@@ -243,15 +243,15 @@ hr {
 .succes-ajout-photo {
     background-color: #A7A7A7;
 
-    &.active {
-        background-color: #1D6154;
+    // &.active {
+    //     background-color: #1D6154;
 
         &:hover {
             background-color: $button-hover-backgroundColor;
             cursor: pointer;
         }
     }
-}
+// }
 
 #modaleSuppr #modaleButtonJs {
     border: none;
