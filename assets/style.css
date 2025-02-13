@@ -65,7 +65,7 @@ footer nav ul {
 input[type=submit] {
   font-family: "Syne";
   font-weight: 700;
-  color: white;
+  color: #FFFFFF;
   background-color: #1D6154;
   margin: 2em auto;
   width: 180px;
@@ -74,10 +74,6 @@ input[type=submit] {
 }
 input[type=submit]:hover {
   background-color: #0E2F28;
-}
-
-.couleur-survol {
-  cursor: pointer;
 }
 
 .gallery {
@@ -147,7 +143,7 @@ ol, ul {
 header {
   display: flex;
   justify-content: space-between;
-  margin: 40px 0;
+  margin: 40px -80px 40px -20px;
 }
 
 h1 {
@@ -166,7 +162,7 @@ h1 > span {
 
 nav li a {
   text-decoration: none;
-  color: black;
+  color: #000000;
 }
 
 #introduction {
@@ -198,7 +194,7 @@ nav ul {
 }
 
 nav li {
-  padding: 0 10px;
+  padding: 0 30px;
   font-size: 1.2em;
 }
 nav li:hover {
@@ -267,8 +263,8 @@ section {
   position: absolute;
   width: 100vw;
   height: 59px;
-  background-color: black;
-  color: white;
+  background-color: #000000;
+  color: #FFFFFF;
   justify-content: center;
   align-items: center;
   top: 0;
@@ -293,7 +289,7 @@ section {
   font-weight: 400;
 }
 .modifier a {
-  color: black;
+  color: #000000;
   text-decoration: none;
   padding-left: 30px;
 }
@@ -373,7 +369,6 @@ section {
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-column-gap: 20px;
   grid-row-gap: 10px;
-  padding-bottom: 0;
 }
 .modale img {
   width: 100%;
@@ -389,7 +384,7 @@ section {
   display: flex;
   flex-direction: column;
 }
-.modale-button-js {
+.modale-bouton {
   padding-top: 25px;
 }
 
@@ -431,7 +426,7 @@ section {
   font-size: 1.2em;
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-  background-color: white;
+  background-color: #FFFFFF;
   cursor: pointer;
   color: #444444;
   font-size: 14px;
@@ -476,14 +471,14 @@ section {
   cursor: pointer;
 }
 .ajouter-photo-rectangle #affichage-photo {
-  margin: -10px auto 0 auto;
+  margin: 0 auto 0 auto;
   position: relative;
 }
 .ajouter-photo-rectangle #affichage-photo img {
   -o-object-fit: fill;
      object-fit: fill;
   width: 150px;
-  height: 190px;
+  height: 170px;
   display: none;
 }
 
@@ -506,20 +501,20 @@ section {
   right: 10px;
   font-size: 24px;
   cursor: pointer;
-  color: white;
+  color: #FFFFFF;
 }
 
 .fa-trash-can {
   font-size: 10px;
-  color: white;
-  background-color: black;
+  color: #FFFFFF;
+  background-color: #000000;
   padding: 4px;
 }
 
 .fleche-gauche-modale {
   display: block;
   border: none;
-  background-color: white;
+  background-color: #FFFFFF;
   padding-top: 30px;
   cursor: pointer;
 }
@@ -543,7 +538,7 @@ section {
   padding: 6px;
   position: absolute;
   border: none;
-  background-color: white;
+  background-color: #FFFFFF;
   font-weight: bold;
   display: flex;
   justify-content: end;
@@ -557,14 +552,14 @@ section {
   width: 620px;
   height: 720px;
   border-radius: 10px 0px 0px 0px;
-  background-color: white;
+  background-color: #FFFFFF;
   margin-top: 6px;
   padding: 0 40px;
   animation: affichageModale 300ms ease-out;
 }
 .contenu-modale__h1 {
   font-family: "Work Sans";
-  color: black;
+  color: #000000;
   font-weight: 400;
   text-align: center;
   font-size: 24px;
@@ -590,11 +585,8 @@ hr {
 .succes-ajout-photo {
   background-color: #A7A7A7;
 }
-.succes-ajout-photo:hover {
-  background-color: #0E2F28;
-}
 
-#modaleSuppr #modaleButtonJs {
+#modaleSuppr #modaleBouton {
   border: none;
   background-color: inherit;
 }
