@@ -372,7 +372,6 @@ function ajouterTravailGaleries(resultat) {
     nouveauTravailModale.innerHTML = `
         <div class="modale-projet-conteneur" id="projet-${resultat.id}">
             <img src="${resultat.imageUrl}" alt="${resultat.title}">
-            <figcaption>${resultat.title}</figcaption>
             <i data-projet="${resultat.id}" class="fa-solid fa-trash-can affiche-poubelle"></i>
         </div>
     `;

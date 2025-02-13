@@ -1,7 +1,9 @@
+// variables
+@import "../utils/variables";
 
 #connecter a {
-    display: flex;
-    font-family: Work Sans;
+    display: $displayFlex;
+    font-family: 'Work Sans';
     font-size: 14px;
     font-weight: 500;
     line-height: 16.42px;

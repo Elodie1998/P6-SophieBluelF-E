@@ -51,7 +51,6 @@ function obtenirProjetModale(info) {
     projetModale.id = `projet-${info.id}`;
     projetModale.innerHTML = `<div class="modale-projet-conteneur">
                                 <img src="${info.imageUrl}" alt="${info.title}">
-                                <figcaption>${info.title}</figcaption>
                                 <i data-projet="${info.id}" class="fa-solid fa-trash-can affiche-poubelle"></i>
                               </div>`;
     document.querySelector(".modale-gallery").appendChild(projetModale); //ajout figure à la fin de la modale

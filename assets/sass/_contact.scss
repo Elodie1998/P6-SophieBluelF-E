@@ -13,6 +13,10 @@
     & h2{
         margin-bottom: 20px;
     }
+
+    p {
+        color: #3D3D3D;
+    }
     
     & form {
         @include contactetAjoutForm;
@@ -21,8 +25,7 @@
     & input {
         height: 50px;
         font-size: 1.2em;
-        border: none;
-        box-shadow: $box-shadow-color
+        @include borderNone-boxshadow;
     }
 
     & label {
@@ -31,6 +34,6 @@
 
     & textarea {
         border: none;
-        box-shadow: $box-shadow-color;
+        box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
     }
 }

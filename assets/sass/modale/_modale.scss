@@ -1,7 +1,8 @@
 
-@import "../page-connexion/connecter";
-@import "../contact";
+// @import "../page-connexion/connecter";
+// @import "../contact";
 @import "../utils/variables";
+@import "../utils/mixins";
 
 .modale {
     position: fixed;
@@ -18,7 +19,9 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
         grid-column-gap: 20px;
-        grid-row-gap: 10px;
+        grid-row-gap: 20px;
+        margin-bottom: 60px;
+        margin-top: 30px;
     }
 
         & img {
@@ -35,12 +38,8 @@
     }
 
     &-ajout-form {
-        display: flex;
+        display: $displayFlex;
         flex-direction: column;
-    }
-
-    &-bouton {
-        padding-top: 25px;
     }
 }
 
@@ -98,11 +97,7 @@
 .ajouter-photo {
     width: 173px;
     height: 36px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    cursor: pointer;
+    @include jc-aiCenter-marginAuto;
 
 
     &-rectangle {
@@ -115,15 +110,12 @@
         margin: 0 auto;
 
         & label {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            @include jc-aiCenter-marginAuto;
             border-radius: 50px;
             color: #306685;
             background-color: #CBD6DC;
             height: 40px;
             width: 170px;
-            margin: auto;
             cursor: pointer;
         }
 
@@ -179,7 +171,7 @@
 }
 
 .fa-arrow-left {
-    display: flex;
+    display: $displayFlex;
     justify-content: left;
 }
 
@@ -199,7 +191,7 @@
     border: none;
     background-color: $modal-input-color;
     font-weight: bold;
-    display: flex;
+    display: $displayFlex;
     justify-content: end;
     cursor: pointer;
 }
@@ -209,11 +201,11 @@
     position: fixed;
     text-align: $textAlign-center;
     width: 620px;
-    height: 720px;
+    height: 700px;
     border-radius: 10px 0px 0px 0px;
     background-color: $modal-input-color;
-    margin-top: 6px;
-    padding: 0 40px;
+    margin-top: 20px;
+    padding: 5px 40px 0 40px;
     animation: affichageModale 300ms ease-out;
 
     &__h1 {
@@ -231,6 +223,7 @@
 
 hr {
     border: 1px solid #B3B3B3;
+    margin : 25px 0;
 }
 
 #modale input {
@@ -242,15 +235,6 @@ hr {
 .succes-ajout-photo {
     background-color: $button-empty-backgroundColor;
 }
-
-// &.active {
-//     background-color: #1D6154;
-
-    // &:hover {
-    //     background-color: $button-hover-backgroundColor;
-    //     cursor: pointer;
-    // }
-// }
 
 #modaleSuppr #modaleBouton {
     border: none;
