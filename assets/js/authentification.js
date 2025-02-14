@@ -27,7 +27,7 @@ async function ajoutListenerAuthentification() {
         let texteErreur = document.querySelector("#connexionform .erreur");
 
         if(texteErreur) {//si existe déjà, MAJ (message non répété)
-            texteErreur.innerHTML = "La connexion n'a pas être établie.";
+            texteErreur.innerHTML = "La connexion n'a pas pu être établie.";
 
         } else {//Si n'existe pas déjà, en crée 1 
             texteErreur = document.createElement("div");

@@ -1,0 +1,41 @@
+// _contact; 
+@mixin contactetAjoutForm {
+    text-align: left;
+    margin-top:30px;
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin borderNone-boxshadow {
+    border: none;
+    box-shadow: 0px 4px 14px 0px #00000017;
+}
+
+
+@mixin section-input {
+    height: 50px;
+    font-size: 1.2em;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+// _mode-edition; 
+@mixin jc-aiCenter {
+    justify-content: center;
+    align-items: center;
+}
+
+// _modale; 
+@mixin jc-aiCenter-marginAuto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    cursor: pointer;
+}
+
+// _filtre
+@mixin colors-filtre {
+    background-color: #1D6154;
+    color: #FFFFFF;
+}

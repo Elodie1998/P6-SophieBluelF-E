@@ -28,8 +28,8 @@
         			<h1 class="contenu-modale__h1">Galerie photo</h1>
 					<div class="modale-gallery"></div>
 					<hr/>
-					<button id="modaleButtonJs" class="modale-button-js">
-						<input class="ajout-photo couleur-survol" type="submit" value="Ajouter une photo">
+					<button id="modaleBouton" class="modale-bouton">
+						<input class="ajout-photo" type="submit" value="Ajouter une photo">
         			</button>
 				</div>
 			</div>
@@ -44,7 +44,7 @@
 					</button>
 				</div>
         		<h1 class="contenu-modale__h1">Ajout photo</h1>
-				<form id="ajoutPhotoFormulaire" action="#" method="post">
+				<form id="ajoutPhotoForm" action="#" method="post">
 					<div class="ajouter-photo-rectangle">
 						<div id="affichage-photo">
 							<img id="apercu" src="" alt="">
@@ -62,8 +62,8 @@
             	    	<div id="ajout">
                 	   		<div class="modale-ajout-form">
 			        	    	<label class="ajout-photo-titre" for="title">Titre</label>
-			            		<input class="modale-ajout-form" type="text" name="titre" id="titre" required>
-			            		<label class="ajout-photo-categorie" for="category">Catégorie</label>
+			            		<input class="modale-ajout-form" type="text" name="title" id="titre" required>
+			            		<label class="ajout-photo-categorie" for="category" size="1">Catégorie</label>
 			            		<select name="category" class="ajout-selectionCategories" id="selectionCategories" required>
 									<option value=""></option>
 								</select>
@@ -71,15 +71,15 @@
                 		</div>
             		</div>
 					<hr/>
-					<div class="modale-button-js">
-						<input class="ajout-photo succes-ajout-photo" id="button-grey" type="submit" value="Valider">
+					<div class="modale-bouton">
+						<input id="addPicture" class="ajout-photo succes-ajout-photo" type="submit" value="Valider">
         			</div>
 				</form>
         	</div>
 		</div>
     </aside>
 <header>
-	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+	<h1>Sophie Bluel <span>ARCHITECTE D'INTÉRIEUR</span></h1>
 	<nav>
 		<ul>
 			<li><a href="#portfolio">projets</a></li>
@@ -123,7 +123,7 @@
 			<input type="email" name="email" id="email">
 			<label for="message">Message</label>
 			<textarea name="message" id="message" cols="30" rows="10"></textarea>
-			<input class="couleur-survol" type="submit" value="Envoyer">
+			<input type="submit" value="Envoyer">
 		</form>
 	</section>
 </main>

@@ -1,7 +1,12 @@
+// variables
+@import "./utils/variables";
+
+// mixin
+@import "./utils/mixins";
 
 /*ajout de css*/
 .div-conteneur {
-	display: flex;
+	display: $displayFlex;
 	justify-content: center;
 	height: 38px;
 	margin: 50px auto;
@@ -18,14 +23,12 @@
 	    cursor: pointer;
 
 		&:hover {
-            background-color: #1D6154;
-            color: white;
+            @include colors-filtre;
         }
     }
 
 	.filtre-selectionne {
-		background-color: #1D6154;
-        color: white;
+		@include colors-filtre;
 	}
 
 }

@@ -1,6 +1,6 @@
 
 let modale = null;//fait que modale n'existe pas
-const selecteurFocusable = "button, a, input, textarea";
+const selecteurFocusable = "button, a, input, textarea, select";
 let focusables = [];
 let elementAvantFocus = null;
 
@@ -70,12 +70,9 @@ window.addEventListener("keydown", function (e) {
 })
 
 //fonction suppression
-let projetsSupprimes = []; // Tableau pr stocker IDs des projets suppr
+let projetSuppr = []; // Tableau pr stocker IDs des projets suppr
 
 async function supprTravaux(id) {
-    // console.log(event);
-    // let id = event.target.dataset.projet; //ID du projet à suppr
-    // console.log(id);
     const supprApi = "http://localhost:5678/api/works/";
     const token = sessionStorage.connexToken;
 
@@ -95,7 +92,7 @@ async function supprTravaux(id) {
     } else {
         //Suppr fait  - MAJ interface utilisateur
         //Récup et suppr du DOM l'élément projet correspondant
-        projetsSupprimes.push(id); // Pr ajouter ID à la liste des projets suppr
+        projetSuppr.push(id); // Pr ajouter ID à la liste des projets suppr
         console.log(`Projet avec ID ${id} suppr avec succès.`);
 
         // Retirer l'élément  du DOM
@@ -106,9 +103,9 @@ async function supprTravaux(id) {
 
         // Pr recharger les projets afin de MAJ l'interface et la modale
         await rechargerProjets(); // Pr recharger liste des projets afin de refléter changements
-        console.log("Projets supprimés jusqu'à présent : ", projetsSupprimes);
+        console.log("Projet supprimé jusqu'à présent : ", projetSuppr);
         window.location.href = "index.html";
-        alert("Le projet a bien été supprimé.");
+        console.log("Le projet a bien été supprimé.");
     }
 }
 
@@ -151,12 +148,20 @@ async function rechargerProjets() {
 
 // Modale ajout photo
 
-const ajouterPhotoInput = document.getElementById("modaleButtonJs");
+const ajouterPhotoInput = document.getElementById("modaleBouton");
 ajouterPhotoInput.addEventListener("click", revenirModaleSuppr);
 const flecheGaucheModale = document.querySelector(".fleche-gauche-modale");
 flecheGaucheModale.addEventListener("click", revenirModaleSuppr);
 const croixModaleAjout = document.querySelector(".revenir-modale-suppr");
 croixModaleAjout.addEventListener("click", revenirModaleSuppr);
+
+// Variables pr titre et catégorie
+let valeurTitre = "";
+let categorieSelectionee = "";
+let file;
+
+const categorySelect = document.getElementById("selectionCategories");
+// const buttonAjoutCouleur = document.getElementById("addPicture");
 
 function revenirModaleSuppr() {
     const modaleAffichee = document.getElementById("modaleSuppr");
@@ -168,7 +173,6 @@ function revenirModaleSuppr() {
     } else {
         modaleAffichee.style.display = "block";
         modaleAjout.style.display = "none";
-
     }
 }
 
@@ -182,7 +186,6 @@ async function recuperationCategories() {
 
         const categories = await reponseC.json();// Convertion réponse en JSON, accès + facilement données
 
-        const categorySelect = document.getElementById("selectionCategories");
         categories.forEach(category => {
             const option = document.createElement("option");
             option.innerHTML = category.name; // Définit le texte des options
@@ -197,11 +200,6 @@ async function recuperationCategories() {
 recuperationCategories();//appel pr recup catégories dispo via API
 
 // Fonction bouton valider ajout photo
-
-// Variables pr titre et catégorie
-let valeurTitre = "";
-let categorieSelectionee = "";
-let file;
 
 function validerAjoutPhoto() {
 
@@ -221,8 +219,8 @@ function validerAjoutPhoto() {
     inputImage.addEventListener("change", imageChange);
 
     // Fonction pr écouter changements de catégorie
-    document.getElementById("selectionCategories").removeEventListener("change", categorieChange);
-    document.getElementById("selectionCategories").addEventListener("change", categorieChange);
+    categorySelect.removeEventListener("change", categorieChange);
+    categorySelect.addEventListener("change", categorieChange);
 
     // Pr écouter changements de titre
     const inputTitre = document.getElementById("titre");
@@ -230,9 +228,25 @@ function validerAjoutPhoto() {
     inputTitre.addEventListener("input", titreInput);
 
     // Pr soumettre formulaire
-    const formulaireAjoutPhoto = document.getElementById("ajoutPhotoFormulaire");
+    const formulaireAjoutPhoto = document.getElementById("ajoutPhotoForm");
     formulaireAjoutPhoto.removeEventListener("submit", soumissionFormulaire);
     formulaireAjoutPhoto.addEventListener("submit", soumissionFormulaire);
+}
+
+function titreInput() {
+    // document.getElementById("titre").addEventListener("input", () => {
+        valeurTitre = document.getElementById("titre").value;
+        console.log("Titre du projet : ", valeurTitre);
+        verifierChamps(); // Pr vérif champs à chaque saisie
+    // });
+}
+            
+function categorieChange() {
+    // document.getElementById("selectionCategories").addEventListener("change", (e) => {
+        categorieSelectionee = this.value;
+        console.log("Catégorie sélectionnée : ", categorieSelectionee);
+        verifierChamps(); // Pr vérif champs à chaque saisie
+    // });
 }
 
 function imageChange(event) {
@@ -255,26 +269,14 @@ function imageChange(event) {
     } else {
         alert("Vous devez sélectionner une image au format JPG ou PNG uniquement.")
     }
-}
-
-function categorieChange() {
-    categorieSelectionee = this.value;
-    verifierChamps(); // Pr vérif champs à chaque saisie
-}
-
-function titreInput() {
-    valeurTitre = document.getElementById("titre").value;
-    verifierChamps(); // Pr vérif champs à chaque saisie
+    // verifierChamps();
 }
 
 async function soumissionFormulaire(event) {
     event.preventDefault();
 
-    const buttonAjoutCouleur = document.querySelector(".succes-ajout-photo");
     if (file && valeurTitre && categorieSelectionee) {
-        buttonAjoutCouleur.style.backgroundColor = "#1D6154";
-        buttonAjoutCouleur.classList.add("couleur-survol");
-
+        const buttonAjoutCouleur = document.querySelector(".succes-ajout-photo");
         const formData = new FormData();
         formData.append("image", file);// Pr l'ajout du fichier
         formData.append("title", valeurTitre);// Pr l'ajout du titre
@@ -307,13 +309,11 @@ async function soumissionFormulaire(event) {
                 // Pr réinitialiser les champs et la couleur du bouton submit
                 document.querySelector(".photo-ajoutee").style.display = "block";
                 document.getElementById("apercu").style.display = "none";
-                buttonAjoutCouleur.style.backgroundColor = "";
-                buttonAjoutCouleur.classList.remove("couleur-survol");
                 document.getElementById("titre").value = "";
-                document.getElementById("selectionCategories").value = "";
+                categorySelect.value = "";
                 window.location.href = "index.html";
 
-                alert("Projet ajouté avec succès et galeries mises à jour.");
+                // console.log("Projet ajouté avec succès et galeries mises à jour.");
 
             } else {
                 afficherErreur(reponse);
@@ -327,16 +327,34 @@ async function soumissionFormulaire(event) {
     }
 }; 
 
-    function verifierChamps() {
-        const buttonAjoutCouleur = document.getElementById("button-grey");
-        if (file && valeurTitre && categorieSelectionee) {
-            buttonAjoutCouleur.style.backgroundColor = "#1D6154";
-            buttonAjoutCouleur.classList.add("couleur-survol");
-        } else {
-            buttonAjoutCouleur.style.backgroundColor = "#A7A7A7";
-            buttonAjoutCouleur.classList.remove("couleur-survol");
-        }
+function verifierChamps() {
+    // const buttonAjoutCouleur = document.getElementById("addPicture");
+
+    if (file && valeurTitre && categorieSelectionee) {
+        return true;
+    } else {
+        return false;
     }
+    // Critères de vérif 
+//     const fileValide = file && file.type.startsWith("image/jpeg, image/png");
+//     const titreValide = valeurTitre.trim().length > 0; // Vrai si le titre est valide
+//     const categorieValide = categorieSelectionee !== ""; // Vrai si la catégorie est valide
+//     if (fileValide && titreValide && categorieValide) {        
+//         buttonAjoutCouleur.style.backgroundColor = "#1D6154";
+//         buttonAjoutCouleur.style.cursor = "pointer";
+//         buttonAjoutCouleur.addEventListener("mouseenter", () => {
+//             buttonAjoutCouleur.style.backgroundColor = "#0E2F28";
+//         });
+//         buttonAjoutCouleur.addEventListener("mouseout", () => {
+//             buttonAjoutCouleur.style.backgroundColor = "";
+//         });
+//         return true;
+//      } else {
+//         buttonAjoutCouleur.style.backgroundColor = "#A7A7A7";
+//         buttonAjoutCouleur.style.cursor = "";
+//         return false;
+//     }
+}
 
 function ajouterTravailGaleries(resultat) {
     const galerie = document.querySelector(".gallery");
@@ -345,7 +363,6 @@ function ajouterTravailGaleries(resultat) {
     console.log(resultat);
 
     const nouveauTravail = document.createElement("figure");
-    // nouveauTravail.id = `gallery-${id}`;
     nouveauTravail.innerHTML = `
         <img src=${resultat.imageUrl} alt=${resultat.title}>
 		<figcaption>${resultat.title}</figcaption>
@@ -353,9 +370,8 @@ function ajouterTravailGaleries(resultat) {
 
     const nouveauTravailModale = document.createElement("figure");
     nouveauTravailModale.innerHTML = `
-        <div class="modale-projet-conteneur"id="projet-${resultat.id}">
+        <div class="modale-projet-conteneur" id="projet-${resultat.id}">
             <img src="${resultat.imageUrl}" alt="${resultat.title}">
-            <figcaption>${resultat.title}</figcaption>
             <i data-projet="${resultat.id}" class="fa-solid fa-trash-can affiche-poubelle"></i>
         </div>
     `;
@@ -368,7 +384,7 @@ function afficherErreur(reponse) {
     const boiteErreur = document.createElement("div");
     boiteErreur.classList.add("erreur");
     boiteErreur.innerHTML = "Il y a eu une erreur.";
-    document.getElementById("ajoutPhotoFormulaire").prepend(boiteErreur); 
+    document.getElementById("ajoutPhotoForm").prepend(boiteErreur); 
 
     reponse.texte().then(texteErreur => {
         console.error("Erreur : ", texteErreur);
@@ -380,9 +396,42 @@ function afficherErreurConnexion() {
     const boiteErreur = document.createElement("div");
     boiteErreur.classList.add("erreur");
     boiteErreur.innerHTML = "Il y a eu une erreur de connexion.";
-    document.getElementById("ajoutPhotoFormulaire").prepend(boiteErreur);
+    document.getElementById("ajoutPhotoForm").prepend(boiteErreur);
 }
 
 document.querySelector(".ajout-photo").addEventListener("click", function() {
     validerAjoutPhoto();
+});
+
+const fields = document.querySelectorAll("input, select");
+fields.forEach(input => {
+    input.addEventListener("focusout", (e) => {
+        console.log(e.target);
+        if(verifierChamps()) {
+            document.getElementById("addPicture").style.backgroundColor = "#1D6154";
+            document.getElementById("addPicture").style.cursor = "pointer";
+            document.getElementById("addPicture").addEventListener("mouseenter", () => {
+                document.getElementById("addPicture").style.backgroundColor = "#0E2F28";
+            });
+            document.getElementById("addPicture").addEventListener("mouseout", () => {
+                document.getElementById("addPicture").style.backgroundColor = "";
+            });
+        } else {
+            document.getElementById("addPicture").style.backgroundColor = "#A7A7A7";
+            document.getElementById("addPicture").style.cursor = "";
+        }
+        console.log(verifierChamps(), file, valeurTitre, categorieSelectionee);
+    });
+});
+
+// window.addEventListener("load", verifierChamps);
+window.addEventListener("load", (e) => {
+    console.log(e.target);
+    if(verifierChamps()) {
+        document.getElementById("addPicture").style.backgroundColor = "#1D6154";
+        document.getElementById("addPicture").style.cursor = "pointer";
+     } else {
+        document.getElementById("addPicture").style.backgroundColor = "#A7A7A7";
+        document.getElementById("addPicture").style.cursor = "";
+    }
 });

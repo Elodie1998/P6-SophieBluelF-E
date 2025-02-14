@@ -1,23 +1,21 @@
 
 @import "./utils/variables";
-
-@mixin contactetAjoutForm {
-    text-align: left;
-    margin-top:30px;
-    display: flex;
-    flex-direction: column;
-}
+@import "./utils/mixins";
 
 #contact {
 	width: 50%;
     margin: auto;
 
     & > * {
-	    text-align: center;
+	    text-align: $textAlign-center;
     }
 
     & h2{
         margin-bottom: 20px;
+    }
+
+    p {
+        color: #3D3D3D;
     }
     
     & form {
@@ -27,8 +25,7 @@
     & input {
         height: 50px;
         font-size: 1.2em;
-        border: none;
-        box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+        @include borderNone-boxshadow;
     }
 
     & label {

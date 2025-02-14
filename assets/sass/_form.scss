@@ -3,14 +3,14 @@
 input[type="submit"]{
 	font-family: 'Syne';
 	font-weight: 700;
-	color: white;
-	background-color: #1D6154;
+	color: $modal-input-color;
+	background-color: $button-backgroundColor;
 	margin : 2em auto ;
 	width: 180px;
-	text-align: center;
+	text-align: $textAlign-center;
 	border-radius: 60px ;
-}
 
-.couleur-survol:hover {
-	background-color: $button-hover-backgroundColor;
+	&:hover {
+		background-color: $button-hover-backgroundColor;
+	}
 }

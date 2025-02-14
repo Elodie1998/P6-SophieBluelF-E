@@ -1,12 +1,14 @@
+// variables
+@import "./utils/variables";
 
 nav ul {
-	display: flex;
+	display: $displayFlex;
 	align-items: center;
 	list-style-type: none;
 }
 
 nav li {
-	padding: 0 10px;
+	margin: 0 30px;
 	font-size: 1.2em;
 
 	&:hover {
@@ -15,6 +17,5 @@ nav li {
 }
 
 li:hover {
-	// color: #B1663C;
     cursor: pointer;
 }
