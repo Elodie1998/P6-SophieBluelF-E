@@ -78,7 +78,7 @@ function afficherFiltres(info) {
     console.log(info);//afficher ttes les catégories ss forme d'objets
     const divConteneur = document.createElement("div");//creation elements div pr chaque catégorie
     divConteneur.className = info.name;//attribution nom de classe aux div créés (catégorie)
-    divConteneur.addEventListener("click", () => recuperationTravaux(info.id));//gestion d'événement qui appelle recuperationTravaux ac pr paramètre  celui qui contient les infos sur projets 
+    divConteneur.addEventListener("click", () => recuperationTravaux(info.id));//gestion d'événement qui appelle recuperationTravaux ac pr paramètre celui qui contient les infos sur projets 
     divConteneur.addEventListener("click", (event) => filtreBascule(event));
     document.querySelector(".tous").addEventListener("click", (event) => filtreBascule(event));
     divConteneur.innerHTML = `${info.name}`;//texte pr afficher entre les balises ouvrantes & fermantes des div créés
