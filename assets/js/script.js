@@ -39,7 +39,8 @@ recuperationTravaux();// appel pr récup & afficher tous les projets au chargeme
 
 function obtenirProjet(info) {//info : paramètre qui contient infos sur projets
     const projet = document.createElement("figure");//creation element figure  & titre
-    projet.dataset.identifiant = info.id;
+    // projet.id = `projet-${info.id}`;
+    projet.dataset.identifiant = `projet-${info.id}`;
     projet.innerHTML = `<img src=${info.imageUrl} alt=${info.title}>
 				        <figcaption>${info.title}</figcaption>`;//img & alt + titre
 
@@ -48,7 +49,8 @@ function obtenirProjet(info) {//info : paramètre qui contient infos sur projets
 
 function obtenirProjetModale(info) {
     const projetModale = document.createElement("figure");
-    projetModale.dataset.identifiant = info.id;
+    // projetModale.id = `gallery-${info.id}`;
+    projetModale.dataset.identifiant = `gallery-${info.id}`;
     projetModale.innerHTML =    `<div class="modale-projet-conteneur">
                                 <img src="${info.imageUrl}" alt="${info.title}">
                                 <i data-projet="${info.id}" class="fa-solid fa-trash-can affiche-poubelle"></i>

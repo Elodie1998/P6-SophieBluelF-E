@@ -71,8 +71,7 @@ window.addEventListener("keydown", function (e) {
 //fonction suppression
 
 async function supprTravaux(id) {
-    event.stopPropagation;
-    //console.log(event);
+    console.log(id);
     let projetSuppr = []; // Tableau pr stocker IDs des projets suppr
     const supprApi = "http://localhost:5678/api/works/";
     const token = sessionStorage.connexToken;
@@ -98,19 +97,20 @@ async function supprTravaux(id) {
         projetSuppr.push(id); // Pr ajouter ID à la fin de la liste des projets suppr
         console.log(`Projet avec ID ${id} suppr avec succès.`);
 
-        document.querySelectorAll("i[data-projet]").forEach((i) => {
-            i.addEventListener("click", () => {
-                const id_a_supprimer = i.dataset.projet;
-                document.querySelectorAll(`figure[data-identifiant="${id_a_supprimer}"]`).forEach((element) => {
-                    element.remove();
-                });
-            });
-        });
+        // Retirer l'élément du DOM
+        const projetElement = document.querySelector(`figure[data-identifiant="projet-${id}"]`);
+        console.log(projetElement);
+        if (projetElement) {
+            projetElement.remove();
+        }
+        const projetElementGallery = document.querySelector(`figure[data-identifiant="gallery-${id}"]`);
+        console.log(projetElementGallery);
+        if (projetElementGallery) {
+            projetElementGallery.remove();
+        }
 
         // Pr recharger les projets afin de MAJ l'interface et la modale
-       await rechargerProjets(); // Pr recharger liste des projets afin de refléter changements
         console.log("Projet supprimé jusqu'à présent : ", projetSuppr);
-        // window.location.href  = "index.html"; //PROBLEME URGENT : A ENLEVER (PR SUPPR SANS RAFRACHISSEMENT)
         console.log("Le projet a bien été supprimé.");
     }
 }
@@ -294,6 +294,8 @@ async function soumissionFormulaire(event) {
                 document.getElementById("apercu").style.display = "none";
                 document.getElementById("titre").value = "";
                 selectionCategories.value = "";
+
+                fermerModale(event);
             } else {
                 afficherErreur(reponse);
             }
@@ -304,7 +306,6 @@ async function soumissionFormulaire(event) {
     } else {
         alert("Veuillez remplir tous les champs.");
     }
-    fermerModale(event);
 }; 
 
 function verifierChamps() {
@@ -327,20 +328,44 @@ function ajouterTravailGaleries(resultat) {
     const galerieModale = document.querySelector(".modale-gallery");
 
     const nouveauTravail = document.createElement("figure");
-    nouveauTravail.dataset.identifiant = resultat.id;
+    nouveauTravail.dataset.identifiant = `projet-${resultat.id}`;
     nouveauTravail.innerHTML = `
         <img src=${resultat.imageUrl} alt=${resultat.title}>
 		<figcaption>${resultat.title}</figcaption>
     `;
 
     const nouveauTravailModale = document.createElement("figure");
-    nouveauTravailModale.dataset.identifiant = resultat.id;
+    nouveauTravailModale.dataset.identifiant = `gallery-${resultat.id}`;
     nouveauTravailModale.innerHTML = `
         <div class="modale-projet-conteneur">
             <img src="${resultat.imageUrl}" alt="${resultat.title}">
             <i data-projet="${resultat.id}" class="fa-solid fa-trash-can affiche-poubelle"></i>
         </div>
     `;
+
+    //Ecouteur pr suppression par les icônes poubelles
+    // const iconePoubelle = document.querySelectorAll(".fa-trash-can");
+    // console.log(iconePoubelle);
+    // iconePoubelle.forEach((e) => {
+    //     e.addEventListener("click", (event) => {
+    //         console.log(event);
+    //         const id = event.target.dataset.projet;
+    //         console.log(id);
+    //         if (id) {
+    //              supprTravaux(id);
+    //         } 
+    // //      else {
+    // //             console.error("ID du projet non défini.");
+    // //         }
+    //     });
+    // });
+
+    galerieModale.addEventListener('click', (event) => {
+        if (event.target.classList.contains('fa-trash-can')) {
+            const id = event.target.dataset.projet;
+            supprTravaux(id);
+        }
+    });
 
     galerie.appendChild(nouveauTravail);
     galerieModale.appendChild(nouveauTravailModale);
