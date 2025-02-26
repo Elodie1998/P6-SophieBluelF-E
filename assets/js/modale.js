@@ -71,6 +71,7 @@ window.addEventListener("keydown", function (e) {
 //fonction suppression
 
 async function supprTravaux(id) {
+    console.log(id);
     let projetSuppr = []; // Tableau pr stocker IDs des projets suppr
     const supprApi = "http://localhost:5678/api/works/";
     const token = sessionStorage.connexToken;
@@ -96,16 +97,20 @@ async function supprTravaux(id) {
         projetSuppr.push(id); // Pr ajouter ID à la fin de la liste des projets suppr
         console.log(`Projet avec ID ${id} suppr avec succès.`);
 
-        // Retirer l'élément  du DOM
-        const projetElement = document.getElementById(`projet-${id}`);
+        // Retirer l'élément du DOM
+        const projetElement = document.querySelector(`figure[data-identifiant="projet-${id}"]`);
+        console.log(projetElement);
         if (projetElement) {
             projetElement.remove();
         }
+        const projetElementGallery = document.querySelector(`figure[data-identifiant="gallery-${id}"]`);
+        console.log(projetElementGallery);
+        if (projetElementGallery) {
+            projetElementGallery.remove();
+        }
 
         // Pr recharger les projets afin de MAJ l'interface et la modale
-        await rechargerProjets(); // Pr recharger liste des projets afin de refléter changements
         console.log("Projet supprimé jusqu'à présent : ", projetSuppr);
-        window.location.href  = "index.html"; //PROBLEME URGENT : A ENLEVER (PR SUPPR SANS RAFRACHISSEMENT)
         console.log("Le projet a bien été supprimé.");
     }
 }
@@ -121,14 +126,7 @@ async function rechargerProjets() {
             }
         });
 
-        if (reponse.ok) {            
-            // Pr vider les galeries existantes
-            const galerie = document.querySelector(".gallery");
-            const galerieModale = document.querySelector(".modale-gallery");
-            galerie.innerHTML = "";
-            galerieModale.innerHTML = "";
-            // fermerModale(e);
-        } else {
+        if (!reponse.ok) {            
             console.error("Erreur lors du chargement des projets : ", reponse.status);
         }
     } catch (erreur) {
@@ -193,13 +191,13 @@ function validerAjoutPhoto() {
     document.getElementById("titre").value = "";
     document.getElementById("selectionCategories").value = "";
     document.getElementById("file").value = "";
-    
+
     // récupération image sélectionnée
     const inputImage = document.getElementById("file");
     // let file; // déclaration en dehors de l'écouteur de changement
 
     // Pr retirer l'ancien écouteur avant d'en ajouter un nveau
-    inputImage.removeEventListener("change", imageChange);
+    inputImage.removeEventListener("change", imageChange)
 
     // Pr écoute l'événement de changement sur le fichier
     inputImage.addEventListener("change", imageChange);
@@ -207,7 +205,7 @@ function validerAjoutPhoto() {
     // Fonction pr écouter changements de catégorie
     selectionCategories.removeEventListener("change", categorieChange);
     selectionCategories.addEventListener("change", categorieChange);
-
+    
     // Pr écouter changements de titre
     const inputTitre = document.getElementById("titre");
     inputTitre.removeEventListener("input", titreInput);
@@ -233,6 +231,7 @@ function categorieChange() {
 
 function imageChange(event) {
     file = event.target.files[0]; // Prend le 1er fichier sélectionné
+    verifierChamps();
 
     if (file) {
         const lire = new FileReader();// création d'1 nouvelle instance de FileReader
@@ -251,14 +250,13 @@ function imageChange(event) {
     } else {
         alert("Vous devez sélectionner une image au format JPG ou PNG uniquement.")
     }
-    // verifierChamps();
 }
 
 async function soumissionFormulaire(event) {
     event.preventDefault(); //empêche le rechargement automatique de la page
 
-    if (file && valeurTitre && categorieSelectionee) {
-        const buttonAjoutCouleur = document.querySelector(".succes-ajout-photo");
+   if (file && valeurTitre && categorieSelectionee) {
+        // const buttonAjoutCouleur = document.querySelector(".succes-ajout-photo");
         const formData = new FormData();
         formData.append("image", file);// Pr l'ajout du fichier
         formData.append("title", valeurTitre);// Pr l'ajout du titre
@@ -287,12 +285,17 @@ async function soumissionFormulaire(event) {
                 // Pr ajout du nveau travail aux galeries sans recharger la page
                 ajouterTravailGaleries(resultat);
                 revenirModaleSuppr();
+
+                // Message de succès
+                alert("Projet ajouté avec succès !");
                 
                 // Pr réinitialiser les champs et la couleur du bouton submit
                 document.querySelector(".photo-ajoutee").style.display = "block";
                 document.getElementById("apercu").style.display = "none";
                 document.getElementById("titre").value = "";
                 selectionCategories.value = "";
+
+                fermerModale(event);
             } else {
                 afficherErreur(reponse);
             }
@@ -303,15 +306,21 @@ async function soumissionFormulaire(event) {
     } else {
         alert("Veuillez remplir tous les champs.");
     }
-    fermerModale(event);
 }; 
 
 function verifierChamps() {
-    if (file && valeurTitre && categorieSelectionee) {
-        return true;
+    const champsValides = file && valeurTitre && categorieSelectionee;
+    const buttonAjoutCouleur = document.getElementById("addPicture");
+    if (champsValides) {
+        buttonAjoutCouleur.style.backgroundColor = "#1D6154"; // couleur verte
+        buttonAjoutCouleur.style.cursor = "pointer";
+       // return true;
     } else {
-        return false;
+        buttonAjoutCouleur.style.backgroundColor = "#A7A7A7"; // couleur grise
+        buttonAjoutCouleur.style.cursor = "not-allowed";
+       // return false;
     }
+    return champsValides;
 }
 
 function ajouterTravailGaleries(resultat) {
@@ -319,18 +328,44 @@ function ajouterTravailGaleries(resultat) {
     const galerieModale = document.querySelector(".modale-gallery");
 
     const nouveauTravail = document.createElement("figure");
+    nouveauTravail.dataset.identifiant = `projet-${resultat.id}`;
     nouveauTravail.innerHTML = `
         <img src=${resultat.imageUrl} alt=${resultat.title}>
 		<figcaption>${resultat.title}</figcaption>
     `;
 
     const nouveauTravailModale = document.createElement("figure");
+    nouveauTravailModale.dataset.identifiant = `gallery-${resultat.id}`;
     nouveauTravailModale.innerHTML = `
-        <div class="modale-projet-conteneur" id="projet-${resultat.id}">
+        <div class="modale-projet-conteneur">
             <img src="${resultat.imageUrl}" alt="${resultat.title}">
             <i data-projet="${resultat.id}" class="fa-solid fa-trash-can affiche-poubelle"></i>
         </div>
     `;
+
+    //Ecouteur pr suppression par les icônes poubelles
+    // const iconePoubelle = document.querySelectorAll(".fa-trash-can");
+    // console.log(iconePoubelle);
+    // iconePoubelle.forEach((e) => {
+    //     e.addEventListener("click", (event) => {
+    //         console.log(event);
+    //         const id = event.target.dataset.projet;
+    //         console.log(id);
+    //         if (id) {
+    //              supprTravaux(id);
+    //         } 
+    // //      else {
+    // //             console.error("ID du projet non défini.");
+    // //         }
+    //     });
+    // });
+
+    galerieModale.addEventListener('click', (event) => {
+        if (event.target.classList.contains('fa-trash-can')) {
+            const id = event.target.dataset.projet;
+            supprTravaux(id);
+        }
+    });
 
     galerie.appendChild(nouveauTravail);
     galerieModale.appendChild(nouveauTravailModale);
@@ -380,7 +415,6 @@ fields.forEach(input => {
     });
 });
 
-// window.addEventListener("load", verifierChamps);
 window.addEventListener("load", (e) => {
     console.log(e.target);
     if(verifierChamps()) {
