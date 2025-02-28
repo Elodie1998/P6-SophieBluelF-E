@@ -365,23 +365,11 @@ fields.forEach(input => {
         if(verifierChamps()) {
             document.getElementById("addPicture").style.backgroundColor = "#1D6154";
             document.getElementById("addPicture").style.cursor = "pointer";
-            document.getElementById("addPicture").addEventListener("mouseenter", () => {
-                document.getElementById("addPicture").style.backgroundColor = "#0E2F28";
-            });
-            document.getElementById("addPicture").addEventListener("mouseout", () => {
-                document.getElementById("addPicture").style.backgroundColor = "";
-            });
         } else {
             document.getElementById("addPicture").style.backgroundColor = "#A7A7A7";
             document.getElementById("addPicture").style.cursor = "";
         }
         console.log(verifierChamps(), file, valeurTitre, categorieSelectionee);
-    });
-    document.getElementById("addPicture").removeEventListener("mouseenter", () => {
-        document.getElementById("addPicture").style.backgroundColor = "#0E2F28";
-    });
-    document.getElementById("addPicture").removeEventListener("mouseout", () => {
-        document.getElementById("addPicture").style.backgroundColor = "";
     });
 });
 
