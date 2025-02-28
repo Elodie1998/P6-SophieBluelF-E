@@ -15,14 +15,11 @@ async function recuperationTravaux(filtre) { //opé asynchrones (tps), await gè
             obtenirProjetModale(travail);
         });
 
-        //Ecouteur pr suppression par les icônes poubelles
+        //Ecouteur pour la suppression via les icônes poubelles
         const iconePoubelle = document.querySelectorAll(".fa-trash-can");
-        console.log(iconePoubelle);
         iconePoubelle.forEach((e) => {
             e.addEventListener("click", (event) => {
-                // console.log(event);
                 const id = event.target.dataset.projet;
-                console.log(id);
                 if (id) {
                     supprTravaux(id);
                 } else {
@@ -39,7 +36,6 @@ recuperationTravaux();// appel pr récup & afficher tous les projets au chargeme
 
 function obtenirProjet(info) {//info : paramètre qui contient infos sur projets
     const projet = document.createElement("figure");//creation element figure  & titre
-    // projet.id = `projet-${info.id}`;
     projet.dataset.identifiant = `projet-${info.id}`;
     projet.innerHTML = `<img src=${info.imageUrl} alt=${info.title}>
 				        <figcaption>${info.title}</figcaption>`;//img & alt + titre
@@ -49,7 +45,6 @@ function obtenirProjet(info) {//info : paramètre qui contient infos sur projets
 
 function obtenirProjetModale(info) {
     const projetModale = document.createElement("figure");
-    // projetModale.id = `gallery-${info.id}`;
     projetModale.dataset.identifiant = `gallery-${info.id}`;
     projetModale.innerHTML =    `<div class="modale-projet-conteneur">
                                 <img src="${info.imageUrl}" alt="${info.title}">
@@ -64,7 +59,6 @@ async function obtenirCategories() {
         if (!reponseC.ok) {//si réponse API différent de "ok"
             throw new Erreur("Erreur lors de la récupération des données");//erreur levée
         }
-
         const categories = await reponseC.json();// Convertion réponse en JSON, accès + facilement données
         console.log(categories);//afficher ttes les catégories ds console (Array(3))
         for (let i = 0; i < categories.length; i++) {//pr chaque catégorie
@@ -74,10 +68,9 @@ async function obtenirCategories() {
         console.log("Il y a eu un problème :", erreur);// affiche erreur ds console
     }
 }
-obtenirCategories();//appel pr recup catégories dispo via API
+obtenirCategories();//appel pr récupérer les catégories dispo via API
 
 function afficherFiltres(info) {
-    console.log(info);//afficher ttes les catégories ss forme d'objets
     const divConteneur = document.createElement("div");//creation elements div pr chaque catégorie
     divConteneur.className = info.name;//attribution nom de classe aux div créés (catégorie)
     divConteneur.addEventListener("click", () => recuperationTravaux(info.id));//gestion d'événement qui appelle recuperationTravaux ac pr paramètre celui qui contient les infos sur projets 
@@ -92,7 +85,7 @@ function filtreBascule(event) {
     Array.from(conteneur.children).forEach((child) =>
         child.classList.remove("filtre-selectionne")
     );
-    event.target.classList.add("filtre-selectionne");
+    event.target.classList.add("filtre-selectionne"); //Ajout class pr la catégorie sélectionnée uniquement
 }
 
 document.querySelector(".tous").addEventListener("click", () => recuperationTravaux());//ajout événement aux btns ac classe "tous" pr appeler fction recuperationTravaux() sans filtrer, afficher ts les projets
