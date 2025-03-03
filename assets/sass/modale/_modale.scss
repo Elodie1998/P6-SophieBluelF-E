@@ -1,6 +1,4 @@
 
-// @import "../page-connexion/connecter";
-// @import "../contact";
 @import "../utils/variables";
 @import "../utils/mixins";
 
@@ -232,8 +230,17 @@ hr {
     margin: 0.6em auto;
 }
 
-.succes-ajout-photo {
+#modale .input-ajout-photo {
     background-color: $button-empty-backgroundColor;
+    cursor: not-allowed;
+    
+    &_remplit {
+        background-color: $button-backgroundColor;     
+    
+        &-hover:hover {
+            background-color: $button-hover-backgroundColor;
+        }
+    }
 }
 
 #modaleSuppr #modaleBouton {

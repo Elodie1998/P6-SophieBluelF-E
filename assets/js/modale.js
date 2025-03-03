@@ -174,7 +174,6 @@ function validerAjoutPhoto() {
 
     // récupération image sélectionnée
     const inputImage = document.getElementById("file");
-    // let file; // déclaration en dehors de l'écouteur de changement
 
     // Pr retirer l'ancien écouteur avant d'en ajouter un nveau
     inputImage.removeEventListener("change", imageChange)
@@ -199,13 +198,11 @@ function validerAjoutPhoto() {
 
 function titreInput() {
         valeurTitre = document.getElementById("titre").value;
-        console.log(valeurTitre);
         verifierChamps(); // Pr vérif champs à chaque saisie
 }
             
 function categorieChange() {
         categorieSelectionee = this.value;
-        console.log("Catégorie sélectionnée : ", categorieSelectionee);
         verifierChamps(); // Pr vérif champs à chaque saisie
 }
 
@@ -295,11 +292,9 @@ function verifierChamps() {
     const champsValides = file && valeurTitre && categorieSelectionee;
     const buttonAjoutCouleur = document.getElementById("addPicture");
     if (champsValides) {
-        buttonAjoutCouleur.style.backgroundColor = "#1D6154"; // couleur verte
-        buttonAjoutCouleur.style.cursor = "pointer";
+        buttonAjoutCouleur.classList.remove("input", "input-ajout-photo");
     } else {
-        buttonAjoutCouleur.style.backgroundColor = "#A7A7A7"; // couleur grise
-        buttonAjoutCouleur.style.cursor = "not-allowed";
+        buttonAjoutCouleur.classList.add("input", "input-ajout-photo");
     }
     return champsValides;
 }
@@ -363,11 +358,9 @@ fields.forEach(input => {
     input.addEventListener("focusout", (e) => {
         console.log(e.target);
         if(verifierChamps()) {
-            document.getElementById("addPicture").style.backgroundColor = "#1D6154";
-            document.getElementById("addPicture").style.cursor = "pointer";
+            document.getElementById("addPicture").classList.remove("input", "input-ajout-photo");
         } else {
-            document.getElementById("addPicture").style.backgroundColor = "#A7A7A7";
-            document.getElementById("addPicture").style.cursor = "";
+            document.getElementById("addPicture").classList.add("input", "input-ajout-photo");
         }
         console.log(verifierChamps(), file, valeurTitre, categorieSelectionee);
     });
@@ -376,10 +369,8 @@ fields.forEach(input => {
 window.addEventListener("load", (e) => {
     console.log(e.target);
     if(verifierChamps()) {
-        document.getElementById("addPicture").style.backgroundColor = "#1D6154";
-        document.getElementById("addPicture").style.cursor = "pointer";
+        document.getElementById("addPicture").classList.remove("input", "input-ajout-photo");
      } else {
-        document.getElementById("addPicture").style.backgroundColor = "#A7A7A7";
-        document.getElementById("addPicture").style.cursor = "";
+        document.getElementById("addPicture").classList.add("input", "input-ajout-photo");
     }
 });

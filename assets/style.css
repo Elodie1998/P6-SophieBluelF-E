@@ -553,8 +553,15 @@ hr {
   margin: 0.6em auto;
 }
 
-.succes-ajout-photo {
+#modale .input-ajout-photo {
   background-color: #A7A7A7;
+  cursor: not-allowed;
+}
+#modale .input-ajout-photo_remplit {
+  background-color: #1D6154;
+}
+#modale .input-ajout-photo_remplit-hover:hover {
+  background-color: #0E2F28;
 }
 
 #modaleSuppr #modaleBouton {
