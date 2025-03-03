@@ -12,13 +12,6 @@
 }
 
 
-@mixin section-input {
-    height: 50px;
-    font-size: 1.2em;
-    border: none;
-    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-}
-
 // _mode-edition; 
 @mixin jc-aiCenter {
     justify-content: center;
@@ -33,6 +26,14 @@
     margin: auto;
     cursor: pointer;
 }
+
+@mixin section-input {
+    height: 50px;
+    font-size: 1.2em;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
 
 // _filtre
 @mixin colors-filtre {
