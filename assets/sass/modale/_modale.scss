@@ -237,7 +237,7 @@ hr {
     &_remplit {
         background-color: $button-backgroundColor;     
     
-        &-hover:hover {
+        &:hover {
             background-color: $button-hover-backgroundColor;
         }
     }

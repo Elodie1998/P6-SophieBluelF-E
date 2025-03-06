@@ -197,7 +197,8 @@ function validerAjoutPhoto() {
 }
 
 function titreInput() {
-        valeurTitre = document.getElementById("titre").value;
+        valeurTitre = document.getElementById("titre").value.trim();
+        console.log(valeurTitre);
         verifierChamps(); // Pr vérif champs à chaque saisie
 }
             
@@ -232,7 +233,10 @@ function imageChange(event) {
 async function soumissionFormulaire(event) {
     event.preventDefault(); //empêche le rechargement automatique de la page
 
-   if (file && valeurTitre && categorieSelectionee) {
+    valeurTitre = valeurTitre.trim();
+    console.log("Titre nettoyé :", valeurTitre);
+
+   if (file && valeurTitre !== "" && categorieSelectionee) {
         const formData = new FormData();
         formData.append("image", file);// Pr l'ajout du fichier
         formData.append("title", valeurTitre);// Pr l'ajout du titre
@@ -273,6 +277,9 @@ async function soumissionFormulaire(event) {
                 document.getElementById("titre").value = "";
                 selectionCategories.value = "";
                 fermerModale(event);
+                file = "";
+                valeurTitre = "";
+                categorieSelectionee = "";
             } else {
                 afficherErreur(reponse);
             }
@@ -281,20 +288,26 @@ async function soumissionFormulaire(event) {
         afficherErreurConnexion();
         }
     } else {
-        alert("Veuillez remplir tous les champs.");
+
+        if(file) {
+            console.log("Titre vide ou catégorie manquante.");
+            alert("Veuillez remplir tous les champs avec un titre valide !");
+        } else {
+            alert("Veuillez sélectionner une image !");
+        }
     }
-    file = "";
-    valeurTitre = "";
-    categorieSelectionee = "";
 }; 
 
 function verifierChamps() {
-    const champsValides = file && valeurTitre && categorieSelectionee;
+    const champsValides = file && valeurTitre !== "" && categorieSelectionee;
     const buttonAjoutCouleur = document.getElementById("addPicture");
     if (champsValides) {
         buttonAjoutCouleur.classList.remove("input", "input-ajout-photo");
+        buttonAjoutCouleur.classList.add("input-ajout-photo_remplit")
     } else {
         buttonAjoutCouleur.classList.add("input", "input-ajout-photo");
+        buttonAjoutCouleur.classList.remove("input-ajout-photo_remplit")
+
     }
     return champsValides;
 }
@@ -359,8 +372,12 @@ fields.forEach(input => {
         console.log(e.target);
         if(verifierChamps()) {
             document.getElementById("addPicture").classList.remove("input", "input-ajout-photo");
+            document.getElementById("addPicture").classList.add("input-ajout-photo_remplit")
+
         } else {
             document.getElementById("addPicture").classList.add("input", "input-ajout-photo");
+            document.getElementById("addPicture").classList.remove("input-ajout-photo_remplit")
+
         }
         console.log(verifierChamps(), file, valeurTitre, categorieSelectionee);
     });
@@ -370,7 +387,11 @@ window.addEventListener("load", (e) => {
     console.log(e.target);
     if(verifierChamps()) {
         document.getElementById("addPicture").classList.remove("input", "input-ajout-photo");
+        document.getElementById("addPicture").classList.add("input-ajout-photo_remplit")
+
      } else {
         document.getElementById("addPicture").classList.add("input", "input-ajout-photo");
+        document.getElementById("addPicture").classList.remove("input-ajout-photo_remplit")
+
     }
 });
