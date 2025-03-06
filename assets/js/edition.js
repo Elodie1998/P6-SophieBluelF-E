@@ -14,22 +14,14 @@ function afficherModeEdition() {
         document.querySelector(".edition").style.display = "flex";
         document.querySelector("header").style.marginTop = "100px";
 
-        document.querySelector(".connexion").innerText = "logout";
+        document.querySelector(".connexion").innerHTML = "<a href='index.html'>logout</a>";
 
         lienModale.style.display = "";
         lienModale.classList.add("modifier-lien");
 
         filtreCacher.style.display = "none";
         document.querySelector(".modifier").style.marginBottom = "90px";
-    } else {
-        document.querySelector(".edition").style.display = "none";
-        document.querySelector("header").style.marginTop = "";
-        document.querySelector(".connexion").innerText = "login";
-        lienModale.style.display = "";
-        lienModale.classList.remove("modifier-lien");
-        filtreCacher.style.display = "flex";
-        document.querySelector(".modifier").style.marginBottom = "";
-    }
+    } 
 };
 
 afficherModeEdition();
@@ -41,8 +33,8 @@ document.querySelector(".connexion").addEventListener("click", function () {// A
     document.querySelector(".edition").style.display = "none";
     document.querySelector("header").style.marginTop = "";
     document.querySelector(".connexion").innerText = "login";
-    document.querySelector(".modale-js").style.display = "";
-    document.querySelector(".modale-js").classList.remove("modifier-lien");
-    document.querySelector(".div-conteneur").style.display = "flex";
+    lienModale.style.display = "none";
+    lienModale.classList.remove("modifier-lien");
+    filtreCacher.style.display = "flex";
     document.querySelector(".modifier").style.marginBottom = "";
 });
