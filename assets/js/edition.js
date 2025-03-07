@@ -27,14 +27,19 @@ function afficherModeEdition() {
 afficherModeEdition();
 
 
-document.querySelector(".connexion").addEventListener("click", function () {// Au click du lien Logout
-    sessionStorage.removeItem("connexToken");// Token récupéré retiré
+document.querySelector(".connexion").addEventListener("click", function (event) {// Au click du lien Logout
+    if (sessionStorage.connexToken) {
+        event.preventDefault();
+        sessionStorage.removeItem("connexToken");// Token récupéré retiré
 
-    document.querySelector(".edition").style.display = "none";
-    document.querySelector("header").style.marginTop = "";
-    document.querySelector(".connexion").innerText = "login";
-    lienModale.style.display = "none";
-    lienModale.classList.remove("modifier-lien");
-    filtreCacher.style.display = "flex";
-    document.querySelector(".modifier").style.marginBottom = "";
+        document.querySelector(".edition").style.display = "none";
+        document.querySelector("header").style.marginTop = "";
+        document.querySelector(".connexion").innerText = "login";
+        lienModale.style.display = "none";
+        lienModale.classList.remove("modifier-lien");
+        filtreCacher.style.display = "flex";
+        document.querySelector(".modifier").style.marginBottom = "";
+    } else {
+        window.location.href = "authentification.html";
+    }
 });
